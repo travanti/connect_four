@@ -59,11 +59,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/gameBoard">
 
-            <SurfaceView
+            <com.example.administrator.connectfour.SVGameBoard
                 android:layout_width="600dp"
                 android:layout_height="590dp"
                 android:id="@+id/surfaceView"
                 android:layout_gravity="center" />
+
         </FrameLayout>
 
         <LinearLayout
