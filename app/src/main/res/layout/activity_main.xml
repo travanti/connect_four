@@ -7,16 +7,17 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/LinearLayout"
         android:layout_alignParentTop="true">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:id="@+id/player1Side">
 
             <Space
                 android:layout_width="300px"
@@ -27,9 +28,10 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="P1 Wins: 0"
-                android:id="@+id/textView"
+                android:id="@+id/numberWinsP1"
                 android:layout_weight="0.18"
-                android:textSize="36dp" />
+                android:textSize="36dp"
+                android:textAlignment="center" />
 
             <Space
                 android:layout_width="300px"
@@ -38,19 +40,20 @@
             <SurfaceView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/surfaceView2"
+                android:id="@+id/p1Tokens"
                 android:layout_weight="0.62" />
 
             <SurfaceView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/surfaceView3"
+                android:id="@+id/p1TurnIndicator"
                 android:layout_weight="0.25" />
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/gameBoard">
 
             <SurfaceView
                 android:layout_width="804dp"
@@ -62,7 +65,14 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:id="@+id/player2Side">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settingsButton"
+                android:layout_gravity="right" />
 
             <Space
                 android:layout_width="300px"
@@ -73,9 +83,10 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="P2 Wins: 0"
-                android:id="@+id/textView2"
+                android:id="@+id/numberWinsp2"
                 android:layout_weight="0.15"
-                android:textSize="36dp" />
+                android:textSize="36dp"
+                android:textAlignment="center" />
 
             <Space
                 android:layout_width="300px"
@@ -84,13 +95,13 @@
             <SurfaceView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/surfaceView4"
+                android:id="@+id/p2Tokens"
                 android:layout_weight="0.62" />
 
             <SurfaceView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/surfaceView5"
+                android:id="@+id/p2TurnIndicator"
                 android:layout_weight="0.25" />
         </LinearLayout>
     </LinearLayout>
