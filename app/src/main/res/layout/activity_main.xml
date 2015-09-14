@@ -27,21 +27,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="P1 Wins: 0"
                 android:id="@+id/numberWinsP1"
                 android:layout_weight="0.18"
                 android:textSize="36dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:text="@string/player1_wins" />
 
             <Space
                 android:layout_width="300px"
                 android:layout_height="350px" />
 
-            <SurfaceView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/player1"
                 android:id="@+id/p1Tokens"
-                android:layout_weight="0.62" />
+                android:padding="50dp"
+                android:layout_weight="0.60"
+                android:background="#ffff000b" />
 
             <SurfaceView
                 android:layout_width="match_parent"
@@ -82,21 +86,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="P2 Wins: 0"
+                android:text="@string/player2_wins"
                 android:id="@+id/numberWinsp2"
-                android:layout_weight="0.15"
+                android:layout_weight="0.18"
                 android:textSize="36dp"
                 android:textAlignment="center" />
 
             <Space
                 android:layout_width="300px"
-                android:layout_height="350px" />
+                android:layout_height="350px"
+                android:layout_weight="0.12" />
 
-            <SurfaceView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/p2Tokens"
-                android:layout_weight="0.62" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/player2"
+                android:id="@+id/textView"
+                android:padding="50dp"
+                android:layout_weight="0.60"
+                android:background="#fffff100" />
 
             <SurfaceView
                 android:layout_width="match_parent"

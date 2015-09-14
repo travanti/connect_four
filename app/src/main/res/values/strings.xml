@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">connect four</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="player1_wins">Pl Wins: 0</string>
+    <string name="player2_wins">P2 Wins: 0</string>
+    <string name="player1">P1</string>
+    <string name="player2">P2</string>
+    <string name="your_turn">Your Turn!</string>
 </resources>
