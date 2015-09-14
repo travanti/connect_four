@@ -20,28 +20,34 @@
             android:id="@+id/player1Side">
 
             <Space
-                android:layout_width="300px"
-                android:layout_height="300px" />
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="0dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/numberWinsP1"
-                android:layout_weight="0.18"
+                android:layout_weight="0.33"
                 android:textSize="36dp"
                 android:textAlignment="center"
-                android:text="@string/player1_wins" />
+                android:text="player1_wins"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp" />
 
             <Space
-                android:layout_width="300px"
-                android:layout_height="350px" />
+                android:layout_width="150dp"
+                android:layout_height="350px"
+                android:paddingEnd="0dp"
+                android:paddingStart="0dp" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/player1"
+                android:text="player1"
                 android:id="@+id/p1Tokens"
                 android:padding="50dp"
                 android:layout_weight="0.60"
@@ -63,7 +69,7 @@
                 android:layout_width="600dp"
                 android:layout_height="590dp"
                 android:id="@+id/surfaceView"
-                android:layout_gravity="center" />
+                android:layout_gravity="left|center_vertical" />
 
         </FrameLayout>
 
@@ -81,13 +87,13 @@
 
             <Space
                 android:layout_width="300px"
-                android:layout_height="300px" />
+                android:layout_height="131dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/player2_wins"
+                android:text="player2_wins"
                 android:id="@+id/numberWinsp2"
                 android:layout_weight="0.18"
                 android:textSize="36dp"
@@ -95,17 +101,16 @@
 
             <Space
                 android:layout_width="300px"
-                android:layout_height="350px"
-                android:layout_weight="0" />
+                android:layout_height="350px" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/player2"
+                android:text="player2"
                 android:id="@+id/textView"
                 android:padding="50dp"
-                android:layout_weight="0.60"
+                android:layout_weight="0.80"
                 android:background="#fffff100" />
 
             <SurfaceView
