@@ -60,8 +60,8 @@
             android:id="@+id/gameBoard">
 
             <SurfaceView
-                android:layout_width="804dp"
-                android:layout_height="705dp"
+                android:layout_width="600dp"
+                android:layout_height="590dp"
                 android:id="@+id/surfaceView"
                 android:layout_gravity="center" />
         </FrameLayout>
@@ -95,7 +95,7 @@
             <Space
                 android:layout_width="300px"
                 android:layout_height="350px"
-                android:layout_weight="0.12" />
+                android:layout_weight="0" />
 
             <TextView
                 android:layout_width="fill_parent"
