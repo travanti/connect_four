@@ -8,10 +8,21 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
 
+    SVGameBoard column1, column2, column3, column4, column5, column6, column7;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        column1 = (SVGameBoard) findViewById(R.id.gameBoardCol1);
+//        column2 = (SVGameBoard) findViewById(R.id.gameBoardCol2);
+//        column3 = (SVGameBoard) findViewById(R.id.gameBoardCol3);
+//        column4 = (SVGameBoard) findViewById(R.id.gameBoardCol4);
+//        column5 = (SVGameBoard) findViewById(R.id.gameBoardCol5);
+//        column6 = (SVGameBoard) findViewById(R.id.gameBoardCol6);
+//        column7 = (SVGameBoard) findViewById(R.id.gameBoardCol7);
+//
+//        column1.drawColumn(canvas);
     }
 
     @Override
