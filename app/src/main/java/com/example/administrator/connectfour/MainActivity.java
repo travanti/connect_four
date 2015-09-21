@@ -14,15 +14,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        column1 = (SVGameBoard) findViewById(R.id.gameBoardCol1);
-//        column2 = (SVGameBoard) findViewById(R.id.gameBoardCol2);
-//        column3 = (SVGameBoard) findViewById(R.id.gameBoardCol3);
-//        column4 = (SVGameBoard) findViewById(R.id.gameBoardCol4);
-//        column5 = (SVGameBoard) findViewById(R.id.gameBoardCol5);
-//        column6 = (SVGameBoard) findViewById(R.id.gameBoardCol6);
-//        column7 = (SVGameBoard) findViewById(R.id.gameBoardCol7);
-//
-//        column1.drawColumn(canvas);
+        column1 = (SVGameBoard) findViewById(R.id.gameBoardCol1);
+        column2 = (SVGameBoard) findViewById(R.id.gameBoardCol2);
+        column3 = (SVGameBoard) findViewById(R.id.gameBoardCol3);
+        column4 = (SVGameBoard) findViewById(R.id.gameBoardCol4);
+        column5 = (SVGameBoard) findViewById(R.id.gameBoardCol5);
+        column6 = (SVGameBoard) findViewById(R.id.gameBoardCol6);
+        column7 = (SVGameBoard) findViewById(R.id.gameBoardCol7);
+       // column1.onDraw(column1.RED);
     }
 
     @Override
