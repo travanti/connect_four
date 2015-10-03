@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OptionsMenu"
+            android:label="@string/title_activity_options_menu" >
+        </activity>
     </application>
 
 </manifest>

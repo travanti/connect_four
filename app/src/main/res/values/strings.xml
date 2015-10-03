@@ -7,4 +7,16 @@
     <string name="player1">P1</string>
     <string name="player2">P2</string>
     <string name="your_turn">Your Turn!</string>
+    <string name="title_activity_options_menu">OptionsMenu</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="options">Options</string>
+    <string name="players">Players</string>
+    <string name="aiDiff">AI Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="hard">Hard</string>
+    <string name="tokenColor">Token Color</string>
+    <string name="bluegreen">Blue, Green</string>
+    <string name="yellowred">Yellow, Red</string>
+    <string name="savegoback"><![CDATA[Save & Go Back]]></string>
+    <string name="cancel">Cancel</string>
 </resources>
