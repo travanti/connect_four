@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.connectfour.OptionsMenu"
+    android:id="@+id/">
+
+    <TextView
+        android:id="@+id/optionsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/options"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="50sp" />
+
+    <Button
+        android:id="@+id/p1Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/optionsText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="79dp"
+        android:text="@string/player1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/players"
+        android:id="@+id/playersText"
+        android:textSize="30sp"
+        android:layout_alignTop="@+id/p1Button"
+        android:layout_toLeftOf="@+id/optionsText"
+        android:layout_toStartOf="@+id/optionsText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/player2"
+        android:id="@+id/p2Button"
+        android:layout_alignTop="@+id/p1Button"
+        android:layout_toRightOf="@+id/p1Button"
+        android:layout_toEndOf="@+id/p1Button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/aiDiff"
+        android:id="@+id/ai_diffText"
+        android:layout_marginTop="58dp"
+        android:textSize="30sp"
+        android:layout_below="@+id/p1Button"
+        android:layout_alignRight="@+id/playersText"
+        android:layout_alignEnd="@+id/playersText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/easy"
+        android:id="@+id/easyButton"
+        android:layout_alignTop="@+id/ai_diffText"
+        android:layout_toLeftOf="@+id/hardButton"
+        android:layout_toStartOf="@+id/hardButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hard"
+        android:id="@+id/hardButton"
+        android:layout_alignTop="@+id/easyButton"
+        android:layout_toRightOf="@+id/p1Button"
+        android:layout_toEndOf="@+id/p1Button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/tokenColor"
+        android:id="@+id/tokenColorText"
+        android:textSize="30sp"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/ai_diffText"
+        android:layout_alignStart="@+id/ai_diffText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/yellowred"
+        android:id="@+id/yrButton"
+        android:layout_alignTop="@+id/tokenColorText"
+        android:layout_alignLeft="@+id/easyButton"
+        android:layout_alignStart="@+id/easyButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bluegreen"
+        android:id="@+id/bgButton"
+        android:layout_alignTop="@+id/yrButton"
+        android:layout_toRightOf="@+id/yrButton"
+        android:layout_toEndOf="@+id/yrButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/savegoback"
+        android:id="@+id/saveButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/yrButton"
+        android:layout_toStartOf="@+id/yrButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:id="@+id/cancelButton"
+        android:layout_alignTop="@+id/saveButton"
+        android:layout_alignLeft="@+id/yrButton"
+        android:layout_alignStart="@+id/yrButton" />
+</RelativeLayout>
