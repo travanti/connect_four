@@ -51,46 +51,52 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/gameBoard">
+            android:layout_height="match_parent">
 
-            <com.example.administrator.connectfour.SVCol1
-                android:layout_width="90dp"
-                android:layout_height="570dp"
-                android:id="@+id/gameBoardCol1"
-                android:layout_gravity="center_vertical" />
-            <com.example.administrator.connectfour.SVCol2
-                android:layout_width="90dp"
-                android:layout_height="570dp"
-                android:id="@+id/gameBoardCol2"
-                android:layout_gravity="center_vertical" />
-            <com.example.administrator.connectfour.SVCol3
-                android:layout_width="90dp"
-                android:layout_height="570dp"
-                android:id="@+id/gameBoardCol3"
-                android:layout_gravity="center_vertical" />
-            <com.example.administrator.connectfour.SVCol1
-                android:layout_width="90dp"
-                android:layout_height="570dp"
-                android:id="@+id/gameBoardCol4"
-                android:layout_gravity="center_vertical" />
-            <com.example.administrator.connectfour.SVCol2
-                android:layout_width="90dp"
-                android:layout_height="570dp"
-                android:id="@+id/gameBoardCol5"
-                android:layout_gravity="center_vertical" />
-            <com.example.administrator.connectfour.SVCol3
-                android:layout_width="90dp"
-                android:layout_height="570dp"
-                android:id="@+id/gameBoardCol6"
-                android:layout_gravity="center_vertical" />
-            <com.example.administrator.connectfour.SVCol1
-                android:layout_width="90dp"
-                android:layout_height="570dp"
-                android:id="@+id/gameBoardCol7"
-                android:layout_gravity="center_vertical" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/gameBoard">
+
+                <com.example.administrator.connectfour.SVGameBoard
+                    android:layout_width="90dp"
+                    android:layout_height="570dp"
+                    android:id="@+id/gameBoardCol1"
+                    android:layout_gravity="center_vertical" />
+                <com.example.administrator.connectfour.SVGameBoard
+                    android:layout_width="90dp"
+                    android:layout_height="570dp"
+                    android:id="@+id/gameBoardCol2"
+                    android:layout_gravity="center_vertical" />
+                <com.example.administrator.connectfour.SVGameBoard
+                    android:layout_width="90dp"
+                    android:layout_height="570dp"
+                    android:id="@+id/gameBoardCol3"
+                    android:layout_gravity="center_vertical" />
+                <com.example.administrator.connectfour.SVGameBoard
+                    android:layout_width="90dp"
+                    android:layout_height="570dp"
+                    android:id="@+id/gameBoardCol4"
+                    android:layout_gravity="center_vertical" />
+                <com.example.administrator.connectfour.SVGameBoard
+                    android:layout_width="90dp"
+                    android:layout_height="570dp"
+                    android:id="@+id/gameBoardCol5"
+                    android:layout_gravity="center_vertical" />
+                <com.example.administrator.connectfour.SVGameBoard
+                    android:layout_width="90dp"
+                    android:layout_height="570dp"
+                    android:id="@+id/gameBoardCol6"
+                    android:layout_gravity="center_vertical" />
+                <com.example.administrator.connectfour.SVGameBoard
+                    android:layout_width="90dp"
+                    android:layout_height="570dp"
+                    android:id="@+id/gameBoardCol7"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -135,4 +141,14 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="PLAYER 1 GOES FIRST!"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp" />
 </RelativeLayout>
