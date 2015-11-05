@@ -61,7 +61,7 @@ public class ConnectFourGameState extends GameState {
 
         //check for index error
         if (col < 0 || col > 6) {
-            Log.e("ConnectFourGameState", "incorrect column index");
+            //Log.d("ConnectFourGameState", "incorrect column index");
             return -1;
         }
         //check if the column is already full. if so, don't do anything
@@ -70,7 +70,7 @@ public class ConnectFourGameState extends GameState {
             return 1;
         } else if (currentPlayerID == PLAYER1_ID) {
             //player 1 makes a move
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 6; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
                     //place the token
                     this.gameBoard[i][col] = PLAYER1TOKEN;
@@ -81,7 +81,7 @@ public class ConnectFourGameState extends GameState {
             }
         } else if (currentPlayerID == PLAYER2_ID) {
             //player 2 makes a move
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 6; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
                     //place the token
                     this.gameBoard[i][col] = PLAYER2TOKEN;
@@ -92,7 +92,7 @@ public class ConnectFourGameState extends GameState {
             }
         }
         //else there's an error
-            Log.e("ConnectFourGameState", "there was an error making a move");
+            //Log.d("ConnectFourGameState", "there was an error making a move");
             return -1;
     }
 
