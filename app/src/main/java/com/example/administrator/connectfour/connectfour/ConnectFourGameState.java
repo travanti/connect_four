@@ -9,6 +9,7 @@ import com.example.administrator.connectfour.GameFramework.infoMsg.GameState;
  */
 public class ConnectFourGameState extends GameState {
 
+    //define player IDs
     public static final int PLAYER1_ID = 0;
     public static final int PLAYER2_ID = 1;
 
@@ -50,31 +51,24 @@ public class ConnectFourGameState extends GameState {
         this.currentPlayerID = gameState.getCurrentPlayerID();
     }
 
-    public int getPlayer1Score() {return player1Score;}
-
-    public int getPlayer2Score() {return player2Score;}
-
-    public int[][] getGameBoard() {return gameBoard;}
-
-    public int getCurrentPlayerID() {return currentPlayerID;}
 
     /**
      * when the player makes a move
      * @param col the column which the player moves the token
+     * @return -1 if an error occurs, 0 if success, 1 if board is full
      */
-    public void onPlayerMove(int col) {
+    public int onPlayerMove(int col) {
 
         //check for index error
         if (col < 0 || col > 6) {
             Log.e("ConnectFourGameState", "incorrect column index");
-            return;
+            return -1;
         }
         //check if the column is already full. if so, don't do anything
         if (this.gameBoard[5][col] != EMPTY) {
             //don't do anything
-            return;
-        }
-        else if (currentPlayerID == PLAYER1_ID) {
+            return 1;
+        } else if (currentPlayerID == PLAYER1_ID) {
             //player 1 makes a move
             for (int i = 0; i < 5; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
@@ -82,11 +76,10 @@ public class ConnectFourGameState extends GameState {
                     this.gameBoard[i][col] = PLAYER1TOKEN;
                     //next player's turn
                     this.currentPlayerID = PLAYER2_ID;
-                    return;
+                    return 0;
                 }
             }
-        }
-        else if (currentPlayerID == PLAYER2_ID) {
+        } else if (currentPlayerID == PLAYER2_ID) {
             //player 2 makes a move
             for (int i = 0; i < 5; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
@@ -94,14 +87,13 @@ public class ConnectFourGameState extends GameState {
                     this.gameBoard[i][col] = PLAYER2TOKEN;
                     //next player's turn
                     this.currentPlayerID = PLAYER1_ID;
-                    return;
+                    return 0;
                 }
             }
         }
-        else { //there's an error
+        //else there's an error
             Log.e("ConnectFourGameState", "there was an error making a move");
-            return;
-        }
+            return -1;
     }
 
     private boolean hasWon(int row, int col){
@@ -110,17 +102,48 @@ public class ConnectFourGameState extends GameState {
         TODO implement win conditions.
         we know the game board and current player from instance variables.
         check vertically up
+            - only if row idx is less than 3
         check vertically down
+            - only if row idx is greater than 2
         check horizontally left
+            - only if column idx is greater than 2
         check horizontally right
+            - only if column idx is less than 4
         check diagonally up-right
+            - only if column idx is less than 4 & row idx is less than 3
         check diagonally up-left
+            - only if column idx is greater than 2 & row idx is less than 3
         check diagonally down-right
+            - only if column idx is less than 4 & row idx is greater than 2
         check diagonally down-left
+            - only if column idx is less than 4 & row idx is greater than 2
         */
         return false;
     }
 
 
+    public int getPlayer1Score() {return player1Score;}
+
+    public int getPlayer2Score() {return player2Score;}
+
+    public int[][] getGameBoard() {return gameBoard;}
+
+    public int getCurrentPlayerID() {return currentPlayerID;}
+
+    public void setCurrentPlayerID(int currentPlayerID) {
+        this.currentPlayerID = currentPlayerID;
+    }
+
+    public void setGameBoard(int[][] gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
+    public void setPlayer1Score(int player1Score) {
+        this.player1Score = player1Score;
+    }
+
+    public void setPlayer2Score(int player2Score) {
+        this.player2Score = player2Score;
+    }
 
 }
