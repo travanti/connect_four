@@ -51,6 +51,20 @@ public class ConnectFourGameState extends GameState {
         this.currentPlayerID = gameState.getCurrentPlayerID();
     }
 
+    /**
+     *  on the options screen, the player can reset the entire board,
+     *  but keep the current player scores
+     */
+    public ConnectFourGameState resetGame(){
+
+        //create new game
+        ConnectFourGameState newGame = new ConnectFourGameState();
+        //save the current player scores
+        newGame.setPlayer1Score(this.player1Score);
+        newGame.setPlayer2Score(this.player2Score);
+        return newGame;
+    }
+
 
     /**
      * when the player makes a move
