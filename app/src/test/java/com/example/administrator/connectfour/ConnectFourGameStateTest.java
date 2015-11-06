@@ -12,6 +12,50 @@ import static org.junit.Assert.*;
 public class ConnectFourGameStateTest {
 
     @Test
+    public void testConstructor() throws Exception {
+        ConnectFourGameState gameState = new ConnectFourGameState();
+
+        //test if the array is empty
+        for(int i = 0; i < 6; i++ ){ //index 0 is the bottom row
+            for(int j = 0; j < 7; j++){ //index 0 is the leftmost column
+                assertEquals(ConnectFourGameState.EMPTY, gameState.getGameBoard()[i][j]);
+            }
+        }
+    }
+
+    @Test
+    public void testOtherConstructor() throws Exception {
+        ConnectFourGameState gameState = new ConnectFourGameState();
+
+        ConnectFourGameState newGameState = new ConnectFourGameState(gameState);
+
+        assertEquals(newGameState.getPlayer1Score(), gameState.getPlayer1Score());
+        assertEquals(newGameState.getPlayer2Score(), gameState.getPlayer2Score());
+        assertEquals(newGameState.getCurrentPlayerID(), gameState.getCurrentPlayerID());
+
+        //test if the arrays are the same
+        for(int i = 0; i < 6; i++ ){ //index 0 is the bottom row
+            for(int j = 0; j < 7; j++){ //index 0 is the leftmost column
+                assertEquals(newGameState.getGameBoard()[i][j], gameState.getGameBoard()[i][j]);
+            }
+        }
+
+    }
+
+    @Test
+    public void testResetGame() throws Exception {
+
+        ConnectFourGameState gameState = new ConnectFourGameState();
+        gameState.setPlayer1Score(5);
+        gameState.setPlayer2Score(5);
+
+        ConnectFourGameState newGameState = gameState.resetGame();
+
+        assertEquals(5, newGameState.getPlayer1Score());
+        assertEquals(5, newGameState.getPlayer2Score());
+    }
+
+    @Test
     public void testOnPlayerMove() throws Exception {
         ConnectFourGameState gameState = new ConnectFourGameState();
         int result = gameState.onPlayerMove(0);
