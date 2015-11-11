@@ -14,7 +14,7 @@ public class ConnectFourLocalGame extends LocalGame {
     }
 
     @Override
-    protected boolean canMove(int playerIdx) {
+    protected boolean canMove(int playerID) {
         return false;
     }
 

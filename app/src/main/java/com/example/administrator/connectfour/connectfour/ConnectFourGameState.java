@@ -75,7 +75,6 @@ public class ConnectFourGameState extends GameState {
 
         //check for index error
         if (col < 0 || col > 6) {
-            //Log.d("ConnectFourGameState", "incorrect column index");
             return -1;
         }
         //check if the column is already full. if so, don't do anything
@@ -106,7 +105,6 @@ public class ConnectFourGameState extends GameState {
             }
         }
         //else there's an error
-            //Log.d("ConnectFourGameState", "there was an error making a move");
             return -1;
     }
 
