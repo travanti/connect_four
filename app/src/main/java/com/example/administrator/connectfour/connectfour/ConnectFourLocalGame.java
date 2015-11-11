@@ -5,6 +5,8 @@ import com.example.administrator.connectfour.GameFramework.LocalGame;
 import com.example.administrator.connectfour.GameFramework.actionMsg.GameAction;
 
 /**
+ * the game that sends info to the players and knows how to play the game.
+ * handles the rules of the game
  * Created by garciah16 on 10/30/2015.
  */
 public class ConnectFourLocalGame extends LocalGame {

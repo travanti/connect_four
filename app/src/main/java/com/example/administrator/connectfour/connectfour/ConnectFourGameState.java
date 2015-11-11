@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.administrator.connectfour.GameFramework.infoMsg.GameState;
 
 /**
+ * handles the current state of the game, including initialization,
+ * and win conditions.
  * Created by garciah16 on 10/30/2015.
  */
 public class ConnectFourGameState extends GameState {
