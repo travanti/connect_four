@@ -110,7 +110,7 @@ public class ConnectFourGameState extends GameState {
             return -1;
     }
 
-    private boolean hasWon(int row, int col, int playerID){
+    public boolean hasWon(int row, int col, int playerID){
 
         int token; //identify the type of token we are checking
         if(playerID == PLAYER1_ID){
