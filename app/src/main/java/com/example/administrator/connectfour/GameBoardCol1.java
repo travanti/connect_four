@@ -20,7 +20,7 @@ public class GameBoardCol1 extends SVGameBoard {
         Paint red = new Paint();
         red.setColor(Color.RED);
         Paint white = new Paint();
-        white.setColor(Color.WHITE);
+        white.setColor(Color.TRANSPARENT);
         for (int i = 1; i < 7; i++) {
             canvas.drawCircle(OFFSET, OFFSET * 2 * i, RADIUS, red);
         }

@@ -110,28 +110,98 @@ public class ConnectFourGameState extends GameState {
             return -1;
     }
 
-    private boolean hasWon(int row, int col){
+    private boolean hasWon(int row, int col, int playerID){
 
-        /*
-        TODO implement win conditions.
-        we know the game board and current player from instance variables.
-        check vertically up
-            - only if row idx is less than 3
-        check vertically down
-            - only if row idx is greater than 2
-        check horizontally left
-            - only if column idx is greater than 2
-        check horizontally right
-            - only if column idx is less than 4
-        check diagonally up-right
-            - only if column idx is less than 4 & row idx is less than 3
-        check diagonally up-left
-            - only if column idx is greater than 2 & row idx is less than 3
-        check diagonally down-right
-            - only if column idx is less than 4 & row idx is greater than 2
-        check diagonally down-left
-            - only if column idx is less than 4 & row idx is greater than 2
-        */
+        int token; //identify the type of token we are checking
+        if(playerID == PLAYER1_ID){
+            token = PLAYER1TOKEN;
+        }
+        else{
+            token = PLAYER2TOKEN;
+        }
+
+//        we know the game board from instance variables.
+//        check vertically up
+//            - only if row idx is less than 3
+        if(row < 3){
+            for(int i = 0; i < 3; i++){
+                if(gameBoard[row+i][col] != token){
+                    return false;
+                }
+            }
+            return true; //the row passes the test
+        }
+//        check vertically down
+//            - only if row idx is greater than 2
+        if(row > 2){
+            for(int i = 0; i < 3; i++){
+                if(gameBoard[row-i][col] != token){
+                    return false;
+                }
+            }
+            return true;
+        }
+//        check horizontally left
+//            - only if column idx is greater than 2
+        if(col > 2){
+            for(int i = 0; i < 3; i++){
+                if(gameBoard[row][col-i] != token){
+                    return false;
+                }
+            }
+            return true;
+        }
+//        check horizontally right
+//            - only if column idx is less than 4
+        if(col < 4){
+            for(int i = 0; i <3; i++){
+                if(gameBoard[row][col+i] != token){
+                    return false;
+                }
+            }
+            return true;
+        }
+//        check diagonally up-right
+//            - only if column idx is less than 4 & row idx is less than 3
+        if(col < 4 && row < 3){
+            for (int i = 0; i < 3; i++){
+                if(gameBoard[row+i][col+i] != token){
+                    return false;
+                }
+            }
+            return true;
+        }
+//        check diagonally up-left
+//            - only if column idx is greater than 2 & row idx is less than 3
+        if(col > 2 && row < 3){
+            for(int i = 0; i < 3; i++){
+                if(gameBoard[row+i][col-i] != token){
+                    return false;
+                }
+            }
+            return true;
+        }
+//        check diagonally down-right
+//            - only if column idx is less than 4 & row idx is greater than 2
+        if(col < 4 && row > 2){
+            for(int i = 0; i < 3; i++){
+                if(gameBoard[row-i][col+i] != token){
+                    return false;
+                }
+            }
+            return true;
+        }
+//        check diagonally down-left
+//            - only if column idx is less than 4 & row idx is greater than 2
+        if(col < 4 && row > 2){
+            for(int i = 0; i < 3; i++){
+                if(gameBoard[row-i][col-i] != token){
+                    return false;
+                }
+            }
+            return true;
+        }
+
         return false;
     }
 
