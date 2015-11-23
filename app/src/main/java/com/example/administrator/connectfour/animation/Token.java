@@ -15,14 +15,16 @@ public class Token {
     int yPos;
     int row; //bottom left slot is [1,1]
     int col;
+    int velocity;
 
     public Token(Paint color, int row, int col){
         this.color = color;
-        this.xPos = 260+col*Board.SLOT_LENGTH/2;
+        this.xPos = 170+col*Board.SLOT_LENGTH;
         this.yPos = 0;
         this.row = row;
         this.col = col;
         this.radius = Board.SLOT_LENGTH*11/24;
+        this.velocity = 2;
     }
 
     public void draw(Canvas canvas, float x, float y){
@@ -42,5 +44,13 @@ public class Token {
 
     public void setyPos(int yPos) {
         this.yPos = yPos;
+    }
+
+    public void setVelocity(int velocity) {
+        this.velocity = velocity;
+    }
+
+    public int getVelocity() {
+        return velocity;
     }
 }

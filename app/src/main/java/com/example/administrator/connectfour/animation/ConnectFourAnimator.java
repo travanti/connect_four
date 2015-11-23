@@ -25,7 +25,6 @@ public class ConnectFourAnimator implements Animator {
     Board board = new Board(); //board to be drawn
     TokenPool tokenPoolPlayer1; //tokens drawn out of player 1 pool
     TokenPool tokenPoolPlayer2; //tokens drawn out of player 2 pool
-    int velocity = 2;
     int gravity = 2; //the pieces should fall realistically
     ConnectFourGameState gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
@@ -63,15 +62,19 @@ public class ConnectFourAnimator implements Animator {
         if(tokens.get(0) == null){
             return;
         }
-        Token newToken = tokens.get(0);
-        //draw the token with realistic gravity
-        newToken.draw(canvas, newToken.getxPos(), newToken.getyPos());
-        newToken.setyPos(newToken.getyPos()+velocity);
-        velocity += gravity;
-        //stop the token at the bottom of the board
-        if(newToken.getyPos() > SLOT_LENGTH*5+SLOT_LENGTH/2+20){
-            velocity = 0;
+        //draw every token created on the board
+        for(Token token : tokens){
+            //draw the token with realistic gravity
+            token.draw(canvas, token.getxPos(), token.getyPos());
+            token.setyPos(token.getyPos()+token.getVelocity());
+            token.setVelocity(token.getVelocity()+gravity);
+            //stop the token at the bottom of the board
+            if(token.getyPos() > SLOT_LENGTH*5+SLOT_LENGTH/2){
+                token.setVelocity(0);
+                token.setyPos(SLOT_LENGTH*5+SLOT_LENGTH/2+13);
+            }
         }
+
 
         board.draw(canvas);
     }
@@ -80,13 +83,43 @@ public class ConnectFourAnimator implements Animator {
     public void onTouch(MotionEvent event) {
         //create a new token
         //TODO create a new token at specific column
-        //TODO implement dragging from a pool
-        touched = true;
-        Paint p1Paint = new Paint();
-        p1Paint.setColor(Color.RED);
-        tokens.add(new Token(p1Paint,1,1));
+        float x;
+        //create a token on tap release
+        if(event.getAction() == MotionEvent.ACTION_UP){
+            x = event.getX();
+            int col = getColumn(x);
+            //TODO implement dragging from a pool
+            touched = true;
+            Paint p1Paint = new Paint();
+            p1Paint.setColor(Color.RED);
+            tokens.add(new Token(p1Paint, 1, col));
+        }
     }
 
+    private int getColumn(float x){
+        if(x > 260 && x < 260+ SLOT_LENGTH){
+            return 1;
+        }
+        else if(x > 260 + SLOT_LENGTH/2 && x < 260 + SLOT_LENGTH *2){
+            return 2;
+        }
+        else if(x > 260 + SLOT_LENGTH*2 && x < 260 + SLOT_LENGTH*3){
+            return 3;
+        }
+        else if(x > 260 + SLOT_LENGTH*3 && x < 260 + SLOT_LENGTH*4){
+            return 4;
+        }
+        else if(x > 260 + SLOT_LENGTH*4 && x < 260 + SLOT_LENGTH*5){
+            return 5;
+        }
+        else if(x > 260 + SLOT_LENGTH*5 && x < 260 + SLOT_LENGTH*6){
+            return 6;
+        }
+        else if(x > 260 + SLOT_LENGTH*6 && x < 260 + SLOT_LENGTH*7){
+            return 7;
+        }
+        else{return -1;}
+    }
 
 
 }
