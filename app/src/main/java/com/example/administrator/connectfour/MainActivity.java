@@ -1,27 +1,37 @@
 package com.example.administrator.connectfour;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.example.administrator.connectfour.animation.AnimationCanvas;
+import com.example.administrator.connectfour.animation.Animator;
+import com.example.administrator.connectfour.animation.ConnectFourAnimator;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
-    SVGameBoard column1, column2, column3, column4, column5, column6, column7;
+    TextView titleText;
+    ImageButton optionsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        column1 = (SVGameBoard) findViewById(R.id.gameBoardCol1);
-        column2 = (SVGameBoard) findViewById(R.id.gameBoardCol2);
-        column3 = (SVGameBoard) findViewById(R.id.gameBoardCol3);
-        column4 = (SVGameBoard) findViewById(R.id.gameBoardCol4);
-        column5 = (SVGameBoard) findViewById(R.id.gameBoardCol5);
-        column6 = (SVGameBoard) findViewById(R.id.gameBoardCol6);
-        column7 = (SVGameBoard) findViewById(R.id.gameBoardCol7);
-       // column1.onDraw(column1.RED);
+
+
+
+        //add animation canvas to activity
+        Animator connectFourAnim = new ConnectFourAnimator();
+        AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        mainLayout.addView(myCanvas);
     }
 
     @Override

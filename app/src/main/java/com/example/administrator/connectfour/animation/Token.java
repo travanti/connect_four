@@ -11,14 +11,36 @@ public class Token {
     //instance variables
     int radius;
     Paint color;
-    int row;
+    int xPos;
+    int yPos;
+    int row; //bottom left slot is [1,1]
     int col;
 
     public Token(Paint color, int row, int col){
+        this.color = color;
+        this.xPos = 260+col*Board.SLOT_LENGTH/2;
+        this.yPos = 0;
+        this.row = row;
+        this.col = col;
+        this.radius = Board.SLOT_LENGTH*11/24;
+    }
+
+    public void draw(Canvas canvas, float x, float y){
+
+
+        canvas.drawCircle(x,y,this.radius,color);
 
     }
 
-    public void draw(Canvas canvas){
+    public int getxPos() {
+        return xPos;
+    }
 
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
     }
 }
