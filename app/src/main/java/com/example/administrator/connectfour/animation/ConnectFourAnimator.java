@@ -11,18 +11,32 @@ import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 import java.util.ArrayList;
 
+import static android.graphics.Color.*;
+
 /**
  * animates a canvas where the game will take place,
  * including tokens , a board and a token pool
  * Created by garciah16 on 11/10/2015.
+ * Editted by travanti16 on 11/25/2015
+ * Editted by muller16 on 11/25/2015
  */
 public class ConnectFourAnimator implements Animator {
 
     public static final int SLOT_LENGTH = 180;
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
+    //TODO replace the 1D array list with 2D array list
+//    ArrayList[][] freeSpaces = new ArrayList[7][6];
+//
+//    public static final int SPACE_FREE = 0;
+//    public static final int SPACE_TAKEN = 1;
+//    public static final int SPACE_RED = 2;
+//    public static final int SPACE_YELLOW = 3;
+
     int nextIdx = 0;
     Board board = new Board(); //board to be drawn
+    TokenPool p1Pool = new TokenPool(Color.RED, 130, 1000);
+    TokenPool p2Pool = new TokenPool(Color.YELLOW, 1650, 1000);
     TokenPool tokenPoolPlayer1; //tokens drawn out of player 1 pool
     TokenPool tokenPoolPlayer2; //tokens drawn out of player 2 pool
     int gravity = 2; //the pieces should fall realistically
@@ -36,7 +50,7 @@ public class ConnectFourAnimator implements Animator {
 
     @Override
     public int backgroundColor() {
-        return Color.WHITE;
+        return WHITE;
     }
 
     @Override
@@ -55,6 +69,8 @@ public class ConnectFourAnimator implements Animator {
         //check if the board has been touched yet
         if(touched == false){
             board.draw(canvas);
+            p1Pool.draw(canvas);
+            p2Pool.draw(canvas);
             return;
         }
 
@@ -77,21 +93,42 @@ public class ConnectFourAnimator implements Animator {
 
 
         board.draw(canvas);
+        p1Pool.draw(canvas);
+        p2Pool.draw(canvas);
+
     }
 
     @Override
     public void onTouch(MotionEvent event) {
         //create a new token
         //TODO create a new token at specific column
-        float x;
-        //create a token on tap release
+        float x = event.getX();
+        float y = event.getY();
+        //TODO switch color based on player
+//        Token marker = new Token();
+//
+//        //create a token on tap release
+//        if(event.getAction(() == MotionEvent.ACTION_DOWN) {
+//            if(x <= 130 - Token.RADIUS && x >= 130 - Token.RADIUS && y <= 1000 - Token.RADIUS && y >= 1000 + Token.RADIUS)
+//            {
+//
+//            }
+//            if(x <= 1650 - Token.RADIUS && x >= 1650 - Token.RADIUS && y <= 1000 - Token.RADIUS && y >= 1000 + Token.RADIUS)
+//            {
+//
+//            }
+//        }
+
         if(event.getAction() == MotionEvent.ACTION_UP){
-            x = event.getX();
             int col = getColumn(x);
+
+            if(col == -1) {
+            return; // selected spot is off board
+            }
             //TODO implement dragging from a pool
             touched = true;
             Paint p1Paint = new Paint();
-            p1Paint.setColor(Color.RED);
+            p1Paint.setColor(RED);
             tokens.add(new Token(p1Paint, 1, col));
         }
     }

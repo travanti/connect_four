@@ -8,6 +8,7 @@ import android.graphics.Paint;
  */
 public class Token {
 
+    public static final float RADIUS = Board.SLOT_LENGTH*11/24;
     //instance variables
     int radius;
     Paint color;
@@ -23,7 +24,7 @@ public class Token {
         this.yPos = 0;
         this.row = row;
         this.col = col;
-        this.radius = Board.SLOT_LENGTH*11/24;
+        this.radius = (int) RADIUS;
         this.velocity = 2;
     }
 
