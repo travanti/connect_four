@@ -13,20 +13,26 @@ import android.widget.TextView;
 import com.example.administrator.connectfour.animation.AnimationCanvas;
 import com.example.administrator.connectfour.animation.Animator;
 import com.example.administrator.connectfour.animation.ConnectFourAnimator;
+import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 
 public class MainActivity extends Activity {
 
     TextView titleText;
     ImageButton optionsBtn;
+    public static ConnectFourGameState gameState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        //create game state to use in activity
+        gameState = new ConnectFourGameState();
+        //add other views to activity
+        titleText = (TextView) findViewById(R.id.mainText);
+        titleText.setText("Player 1's turn");
+        optionsBtn = (ImageButton) findViewById(R.id.optionsButton);
         //add animation canvas to activity
         Animator connectFourAnim = new ConnectFourAnimator();
         AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);

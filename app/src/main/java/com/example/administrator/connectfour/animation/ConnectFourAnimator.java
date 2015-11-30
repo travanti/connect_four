@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import com.example.administrator.connectfour.MainActivity;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class ConnectFourAnimator implements Animator {
     TokenPool tokenPoolPlayer1; //tokens drawn out of player 1 pool
     TokenPool tokenPoolPlayer2; //tokens drawn out of player 2 pool
     int gravity = 2; //the pieces should fall realistically
-    ConnectFourGameState gameState; //the current state of the game
+    ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
 
     @Override
@@ -85,9 +86,10 @@ public class ConnectFourAnimator implements Animator {
             token.setyPos(token.getyPos()+token.getVelocity());
             token.setVelocity(token.getVelocity()+gravity);
             //stop the token at the bottom of the board
-            if(token.getyPos() > SLOT_LENGTH*5+SLOT_LENGTH/2){
+            //stop at highest empty position
+            if(token.getyPos() > SLOT_LENGTH*(6-token.row)+SLOT_LENGTH/2){
                 token.setVelocity(0);
-                token.setyPos(SLOT_LENGTH*5+SLOT_LENGTH/2+13);
+                token.setyPos(SLOT_LENGTH*(6-token.row)+SLOT_LENGTH/2+13);
             }
         }
 
@@ -127,9 +129,20 @@ public class ConnectFourAnimator implements Animator {
             }
             //TODO implement dragging from a pool
             touched = true;
-            Paint p1Paint = new Paint();
-            p1Paint.setColor(RED);
-            tokens.add(new Token(p1Paint, 1, col));
+            Paint pPaint = new Paint();
+            if(gameState.getCurrentPlayerID() == gameState.PLAYER1_ID){
+                pPaint.setColor(RED);
+            }
+            else{
+                pPaint.setColor(YELLOW);
+            }
+            Token newToken = new Token(pPaint, gameState.onPlayerMove(col-1), col);
+            tokens.add(newToken);
+            //check if invalid move
+            if(newToken.getRow() == -1){
+                tokens.remove(newToken);
+            }
+            gameState.nextPlayer();
         }
     }
 

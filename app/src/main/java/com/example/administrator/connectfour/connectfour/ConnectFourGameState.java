@@ -71,7 +71,7 @@ public class ConnectFourGameState extends GameState {
     /**
      * when the player makes a move
      * @param col the column which the player moves the token
-     * @return -1 if an error occurs, 0 if success, 1 if board is full
+     * @return -1 if an error occurs or board is full, row idx if successful move
      */
     public int onPlayerMove(int col) {
 
@@ -82,16 +82,14 @@ public class ConnectFourGameState extends GameState {
         //check if the column is already full. if so, don't do anything
         if (this.gameBoard[5][col] != EMPTY) {
             //don't do anything
-            return 1;
+            return -1;
         } else if (currentPlayerID == PLAYER1_ID) {
             //player 1 makes a move
             for (int i = 0; i < 6; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
                     //place the token
                     this.gameBoard[i][col] = PLAYER1TOKEN;
-                    //next player's turn
-                    this.currentPlayerID = PLAYER2_ID;
-                    return 0;
+                    return i;
                 }
             }
         } else if (currentPlayerID == PLAYER2_ID) {
@@ -100,9 +98,7 @@ public class ConnectFourGameState extends GameState {
                 if (this.gameBoard[i][col] == EMPTY) {
                     //place the token
                     this.gameBoard[i][col] = PLAYER2TOKEN;
-                    //next player's turn
-                    this.currentPlayerID = PLAYER1_ID;
-                    return 0;
+                    return i;
                 }
             }
         }
@@ -216,6 +212,15 @@ public class ConnectFourGameState extends GameState {
 
     public void setCurrentPlayerID(int currentPlayerID) {
         this.currentPlayerID = currentPlayerID;
+    }
+
+    public void nextPlayer(){
+        if(currentPlayerID == PLAYER1_ID){
+            setCurrentPlayerID(PLAYER2_ID);
+        }
+        else{
+            setCurrentPlayerID(PLAYER1_ID);
+        }
     }
 
     public void setGameBoard(int[][] gameBoard) {

@@ -54,4 +54,8 @@ public class Token {
     public int getVelocity() {
         return velocity;
     }
+
+    public int getRow() {
+        return row;
+    }
 }
