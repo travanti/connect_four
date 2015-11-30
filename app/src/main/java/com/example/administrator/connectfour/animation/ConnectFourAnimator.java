@@ -21,7 +21,7 @@ import static android.graphics.Color.*;
  * Editted by muller16 on 11/25/2015
  */
 public class ConnectFourAnimator implements Animator {
-
+    //constants
     public static final int SLOT_LENGTH = 180;
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
@@ -69,8 +69,8 @@ public class ConnectFourAnimator implements Animator {
         //check if the board has been touched yet
         if(touched == false){
             board.draw(canvas);
-            p1Pool.draw(canvas);
-            p2Pool.draw(canvas);
+//            p1Pool.draw(canvas); //to draw pool positions
+//            p2Pool.draw(canvas);
             return;
         }
 
