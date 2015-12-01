@@ -20,4 +20,7 @@ public class ConnectFourComputerPlayer extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
 
     }
+
+
+
 }
