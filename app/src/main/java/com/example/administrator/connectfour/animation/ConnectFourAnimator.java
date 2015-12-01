@@ -66,38 +66,56 @@ public class ConnectFourAnimator implements Animator {
 
     @Override
     public void tick(Canvas canvas) {
-
-        //check if the board has been touched yet
-        if(touched == false){
-            board.draw(canvas);
-//            p1Pool.draw(canvas); //to draw pool positions
-//            p2Pool.draw(canvas);
-            return;
-        }
-
-        //we don't want an empty array list
-        if(tokens.get(0) == null){
-            return;
-        }
-        //draw every token created on the board
-        for(Token token : tokens){
-            //draw the token with realistic gravity
-            token.draw(canvas, token.getxPos(), token.getyPos());
-            token.setyPos(token.getyPos()+token.getVelocity());
-            token.setVelocity(token.getVelocity()+gravity);
-            //stop the token at the bottom of the board
-            //stop at highest empty position
-            if(token.getyPos() > SLOT_LENGTH*(6-token.row)+SLOT_LENGTH/2){
-                token.setVelocity(0);
-                token.setyPos(SLOT_LENGTH*(6-token.row)+SLOT_LENGTH/2+13);
+            //check if the board has been touched yet
+            if (touched == false) {
+                synchronized (board) {
+                    board.draw(canvas);
+                }
+                synchronized (p1Pool) {
+                    p1Pool.draw(canvas); //to draw pool positions
+                }
+                synchronized (p2Pool) {
+                    p2Pool.draw(canvas);
+                }
+                return;
             }
-        }
 
 
-        board.draw(canvas);
-        p1Pool.draw(canvas);
-        p2Pool.draw(canvas);
-
+            //we don't want an empty array list
+            synchronized (tokens) {
+                if (tokens.get(0) == null) {
+                    return;
+                }
+            }
+            //draw every token created on the board
+            synchronized (tokens) {
+                for (Token token : tokens) {
+                    //draw the token with realistic gravity
+                    //TODO investigate input speed related crash in animator.
+                    synchronized (token) { //ensuring threads don't try to access token at same time, slows input related crash...sometimes
+                        token.draw(canvas, token.getxPos(), token.getyPos());
+                        token.setyPos(token.getyPos() + token.getVelocity());
+                        token.setVelocity(token.getVelocity() + gravity);
+                    }
+                    //stop the token at the bottom of the board
+                    //stop at highest empty position
+                    synchronized (token) { //ensuring threads don't try to access token at same time, slows input related crash...sometimes
+                        if (token.getyPos() > SLOT_LENGTH * (5 - token.row) + SLOT_LENGTH / 2) {
+                            token.setVelocity(0);
+                            token.setyPos(SLOT_LENGTH * (5 - token.row) + SLOT_LENGTH / 2 + 13);
+                        }
+                    }
+                }
+            }
+            synchronized (board) {
+                board.draw(canvas);
+            }
+            synchronized (p1Pool) {
+                p1Pool.draw(canvas); //to draw pool positions
+            }
+            synchronized (p2Pool) {
+                p2Pool.draw(canvas);
+            }
     }
 
     @Override
