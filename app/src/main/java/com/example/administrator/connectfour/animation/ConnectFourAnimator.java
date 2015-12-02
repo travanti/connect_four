@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.example.administrator.connectfour.MainActivity;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
@@ -108,8 +109,10 @@ public class ConnectFourAnimator implements Animator {
                 }
             }
                 board.draw(canvas);
-                p1Pool.draw(canvas); //to draw pool positions
-                p2Pool.draw(canvas);
+        if(!won) {
+            p1Pool.draw(canvas); //to draw pool positions
+            p2Pool.draw(canvas);
+        }
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.widget.TextView;
 /**
  * Created by garciah16 on 12/1/2015.
  */
-public class GameTitleThread extends Thread {
+public class GameTitleThread implements Runnable {
 
     ConnectFourGameState cfGameState;
     TextView title;

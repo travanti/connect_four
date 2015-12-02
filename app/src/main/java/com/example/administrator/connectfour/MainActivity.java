@@ -40,8 +40,8 @@ public class MainActivity extends Activity {
         AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         mainLayout.addView(myCanvas);
-        gtThread = new GameTitleThread(gameState, titleText);
-        gtThread.start();
+        //gtThread = new GameTitleThread(gameState, titleText);
+        //gtThread.run();
     }
 
     @Override
