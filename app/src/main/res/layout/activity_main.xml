@@ -31,21 +31,5 @@
             android:layout_gravity="top|right"
             android:src="@mipmap/settings_gear" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Player 1"
-            android:id="@+id/textView3"
-            android:layout_marginTop="300dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Player2"
-            android:id="@+id/textView"
-            android:layout_gravity="right" />
-
     </LinearLayout>
 </RelativeLayout>

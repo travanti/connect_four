@@ -34,7 +34,6 @@ public class ConnectFourAnimator implements Animator {
 //    public static final int SPACE_RED = 2;
 //    public static final int SPACE_YELLOW = 3;
 
-    int nextIdx = 0;
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(Color.RED, 130, 1000);
     TokenPool p2Pool = new TokenPool(Color.YELLOW, 1650, 1000);
@@ -43,6 +42,7 @@ public class ConnectFourAnimator implements Animator {
     int gravity = 2; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
+    boolean won = false; //used when the player wins to blink a token
 
     @Override
     public int interval() {
@@ -82,49 +82,41 @@ public class ConnectFourAnimator implements Animator {
 
 
             //we don't want an empty array list
-            synchronized (tokens) {
-                if (tokens.get(0) == null) {
+                if (tokens.isEmpty()) {
                     return;
-                }
             }
             //draw every token created on the board
-            synchronized (tokens) {
+            synchronized (tokens) { //prevent game from crashing
                 for (Token token : tokens) {
                     //draw the token with realistic gravity
-                    //TODO investigate input speed related crash in animator.
-                    synchronized (token) { //ensuring threads don't try to access token at same time, slows input related crash...sometimes
                         token.draw(canvas, token.getxPos(), token.getyPos());
                         token.setyPos(token.getyPos() + token.getVelocity());
                         token.setVelocity(token.getVelocity() + gravity);
-                    }
                     //stop the token at the bottom of the board
                     //stop at highest empty position
-                    synchronized (token) { //ensuring threads don't try to access token at same time, slows input related crash...sometimes
-                        if (token.getyPos() > SLOT_LENGTH * (5 - token.row) + SLOT_LENGTH / 2) {
+                        if (token.getyPos() > SLOT_LENGTH * (6 - token.getRow()) + SLOT_LENGTH / 2) {
                             token.setVelocity(0);
-                            token.setyPos(SLOT_LENGTH * (5 - token.row) + SLOT_LENGTH / 2 + 13);
-                        }
+                            token.setyPos(SLOT_LENGTH * (6 - token.getRow()) + SLOT_LENGTH / 2 + 13);
+                            //now check if someone has won
+                            boolean hasWon = gameState.hasWon(
+                                    token.getRow()-1,token.getCol()-1,gameState.getCurrentPlayerID());
+                            if(hasWon){
+                                won = true;
+                                //make the token blink
+                            }
                     }
                 }
             }
-            synchronized (board) {
                 board.draw(canvas);
-            }
-            synchronized (p1Pool) {
                 p1Pool.draw(canvas); //to draw pool positions
-            }
-            synchronized (p2Pool) {
                 p2Pool.draw(canvas);
-            }
     }
 
     @Override
     public void onTouch(MotionEvent event) {
+
         //create a new token
-        //TODO create a new token at specific column
         float x = event.getX();
-        float y = event.getY();
-        //TODO switch color based on player
 //        Token marker = new Token();
 //
 //        //create a token on tap release
@@ -139,26 +131,28 @@ public class ConnectFourAnimator implements Animator {
 //            }
 //        }
 
-        if(event.getAction() == MotionEvent.ACTION_UP){
+        if (event.getAction() == MotionEvent.ACTION_UP) {
             int col = getColumn(x);
 
-            if(col == -1) {
-            return; // selected spot is off board
-            }
+            if (col == -1) {
+                return;
+            } // selected spot is off board
+            // }
             //TODO implement dragging from a pool
             touched = true;
             Paint pPaint = new Paint();
-            if(gameState.getCurrentPlayerID() == gameState.PLAYER1_ID){
+            if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
                 pPaint.setColor(RED);
-            }
-            else{
+            } else {
                 pPaint.setColor(YELLOW);
             }
-            Token newToken = new Token(pPaint, gameState.onPlayerMove(col-1), col);
-            tokens.add(newToken);
-            //check if invalid move
-            if(newToken.getRow() == -1){
-                tokens.remove(newToken);
+            Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+            synchronized (tokens) { //synchronize tokens in case thread uses the new token
+                tokens.add(newToken);
+                //check if invalid move
+                if (newToken.getRow() == -1) {
+                    tokens.remove(newToken);
+                }
             }
             gameState.nextPlayer();
         }

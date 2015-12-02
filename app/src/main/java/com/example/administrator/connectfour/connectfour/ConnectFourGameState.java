@@ -34,6 +34,7 @@ public class ConnectFourGameState extends GameState {
     int currentPlayerID; //player 1 ID = 0, player 2 ID = 1
     int[][] gameBoard = new int[6][7]; //a 2d matrix representing the game board
                                        //first index is row, second index is column
+    boolean gameIsWon = false;
 
     /**
      * constructor
@@ -97,7 +98,7 @@ public class ConnectFourGameState extends GameState {
                 if (this.gameBoard[i][col] == EMPTY) {
                     //place the token
                     this.gameBoard[i][col] = PLAYER1TOKEN;
-                    return i;
+                    return i +1; //add offset for the animation
                 }
             }
         } else if (currentPlayerID == PLAYER2_ID) {
@@ -106,7 +107,7 @@ public class ConnectFourGameState extends GameState {
                 if (this.gameBoard[i][col] == EMPTY) {
                     //place the token
                     this.gameBoard[i][col] = PLAYER2TOKEN;
-                    return i;
+                    return i+1;
                 }
             }
         }
@@ -114,9 +115,17 @@ public class ConnectFourGameState extends GameState {
             return -1;
     }
 
+    /**
+     *
+     * @param row row the last piece was dropped
+     * @param col col the last piece was dropped
+     * @param playerID current player
+     * @return true if the current player has won, false if not
+     */
     public boolean hasWon(int row, int col, int playerID){
 
         int token; //identify the type of token we are checking
+
         if(playerID == PLAYER1_ID){
             token = PLAYER1TOKEN;
         }
@@ -127,85 +136,121 @@ public class ConnectFourGameState extends GameState {
 //        we know the game board from instance variables.
 //        check vertically up
 //            - only if row idx is less than 3
+        boolean win1 = false;
         if(row < 3){
-            for(int i = 0; i < 3; i++){
-                if(gameBoard[row+i][col] != token){
-                    return false;
+            for(int i = 0; i < 4; i++){
+                if(gameBoard[row+i][col] == token){
+                    win1 = true;
+                }
+                else{
+                    win1 = false;
+                    break;
                 }
             }
-            return true; //the row passes the test
         }
 //        check vertically down
 //            - only if row idx is greater than 2
+        boolean win2 = false;
         if(row > 2){
-            for(int i = 0; i < 3; i++){
-                if(gameBoard[row-i][col] != token){
-                    return false;
+            for(int i = 0; i < 4; i++){
+                if(gameBoard[row-i][col] == token){
+                    win2 = true;
+                }
+                else{
+                    win2 = false;
+                    break;
                 }
             }
-            return true;
         }
 //        check horizontally left
 //            - only if column idx is greater than 2
+        boolean win3 = false;
         if(col > 2){
-            for(int i = 0; i < 3; i++){
-                if(gameBoard[row][col-i] != token){
-                    return false;
+            for(int i = 0; i < 4; i++){
+                if(gameBoard[row][col-i] == token){
+                    win3 = true;
+                }
+                else{
+                    win3 = false;
+                    break;
                 }
             }
-            return true;
         }
 //        check horizontally right
 //            - only if column idx is less than 4
+        boolean win4 = false;
         if(col < 4){
-            for(int i = 0; i <3; i++){
-                if(gameBoard[row][col+i] != token){
-                    return false;
+            for(int i = 0; i <4; i++){
+                if(gameBoard[row][col+i] == token){
+                    win4 = true;
+                }
+                else{
+                    win4 = false;
+                    break;
                 }
             }
-            return true;
         }
 //        check diagonally up-right
 //            - only if column idx is less than 4 & row idx is less than 3
+        boolean win5 = false;
         if(col < 4 && row < 3){
-            for (int i = 0; i < 3; i++){
-                if(gameBoard[row+i][col+i] != token){
-                    return false;
+            for (int i = 0; i < 4; i++){
+                if(gameBoard[row+i][col+i] == token){
+                    win5 = true;
+                }
+                else{
+                    win5 = false;
+                    break;
                 }
             }
-            return true;
         }
 //        check diagonally up-left
 //            - only if column idx is greater than 2 & row idx is less than 3
+        boolean win6 = false;
         if(col > 2 && row < 3){
-            for(int i = 0; i < 3; i++){
-                if(gameBoard[row+i][col-i] != token){
-                    return false;
+            for(int i = 0; i < 4; i++){
+                if(gameBoard[row+i][col-i] == token){
+                    win6 = true;
+                }
+                else{
+                    win6 = false;
+                    break;
                 }
             }
-            return true;
         }
 //        check diagonally down-right
 //            - only if column idx is less than 4 & row idx is greater than 2
+        boolean win7 = false;
         if(col < 4 && row > 2){
-            for(int i = 0; i < 3; i++){
-                if(gameBoard[row-i][col+i] != token){
-                    return false;
+            for(int i = 0; i < 4; i++){
+                if(gameBoard[row-i][col+i] == token){
+                    win7 = true;
+                }
+                else{
+                    win7 = false;
+                    break;
                 }
             }
-            return true;
         }
 //        check diagonally down-left
 //            - only if column idx is less than 4 & row idx is greater than 2
+        boolean win8 = false;
         if(col < 4 && row > 2){
-            for(int i = 0; i < 3; i++){
-                if(gameBoard[row-i][col-i] != token){
-                    return false;
+            for(int i = 0; i < 4; i++){
+                if(gameBoard[row-i][col-i] == token){
+                    win8 = true;
+                }
+                else{
+                    win8 = false;
+                    break;
                 }
             }
-            return true;
         }
 
+        if(win1 || win2 || win3 ||win4||win5||win6||win7||win8){
+            gameIsWon = true;
+            return true;
+        }
         return false;
     }
 
@@ -244,6 +289,10 @@ public class ConnectFourGameState extends GameState {
     public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
 
     public void setPlayerHardAIScore(int playerHardAIScore) {this.playerHardAIScore = playerHardAIScore;}
+
+    public boolean getGameIsWon(){
+        return gameIsWon;
+    }
 
 
 }

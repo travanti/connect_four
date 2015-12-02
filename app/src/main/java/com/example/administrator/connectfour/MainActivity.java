@@ -14,6 +14,7 @@ import com.example.administrator.connectfour.animation.AnimationCanvas;
 import com.example.administrator.connectfour.animation.Animator;
 import com.example.administrator.connectfour.animation.ConnectFourAnimator;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
+import com.example.administrator.connectfour.connectfour.GameTitleThread;
 
 
 public class MainActivity extends Activity {
@@ -21,6 +22,7 @@ public class MainActivity extends Activity {
     TextView titleText;
     ImageButton optionsBtn;
     public static ConnectFourGameState gameState;
+    GameTitleThread gtThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class MainActivity extends Activity {
         AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         mainLayout.addView(myCanvas);
+        gtThread = new GameTitleThread(gameState, titleText);
+        gtThread.start();
     }
 
     @Override

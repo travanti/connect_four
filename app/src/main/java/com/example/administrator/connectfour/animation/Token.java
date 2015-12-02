@@ -30,9 +30,12 @@ public class Token {
 
     public void draw(Canvas canvas, float x, float y){
 
-
         canvas.drawCircle(x,y,this.radius,color);
 
+    }
+
+    public void draw(Canvas canvas, Paint color){
+        canvas.drawCircle(this.xPos, this.yPos, this.radius, color);
     }
 
     public int getxPos() {
@@ -57,5 +60,13 @@ public class Token {
 
     public int getRow() {
         return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public Paint getColor() {
+        return color;
     }
 }
