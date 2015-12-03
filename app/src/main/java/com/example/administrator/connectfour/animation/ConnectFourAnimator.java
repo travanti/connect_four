@@ -17,7 +17,7 @@ import static android.graphics.Color.*;
 
 /**
  * animates a canvas where the game will take place,
- * including tokens , a board and a token pool
+ * including tokens, a board and a token pool
  * Created by garciah16 on 11/10/2015.
  * Editted by travanti16 on 11/25/2015
  * Editted by muller16 on 11/25/2015
@@ -31,9 +31,10 @@ public class ConnectFourAnimator implements Animator {
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(Color.RED, 130, 1000);
     TokenPool p2Pool = new TokenPool(Color.YELLOW, 1650, 1000);
-    int gravity = 2; //the pieces should fall realistically
+    int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
+
     boolean won = false; //used when the player wins to blink a token
     Token winningToken; //make this token blink if its the winner
     Paint winningTokenColor;
@@ -91,11 +92,11 @@ public class ConnectFourAnimator implements Animator {
                     if(won && token == winningToken){
                         //make the token blink
                         int color = winningTokenColor.getColor();
-                        if(counter <= 7){
+                        if(counter <= 5){
                             token.setColor(winningTokenColor);
                             counter++;
                         }
-                        else if(counter > 7 && counter <= 15){
+                        else if(counter > 5 && counter <= 10){
                             counter++;
                             Paint p = new Paint();
                             p.setColor(Color.WHITE);
@@ -178,6 +179,10 @@ public class ConnectFourAnimator implements Animator {
         } else {
             return -1;
         }
+    }
+
+    public void setWon(boolean b){
+        won = b;
     }
 
 
