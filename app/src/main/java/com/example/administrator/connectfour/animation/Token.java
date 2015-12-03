@@ -69,4 +69,8 @@ public class Token {
     public Paint getColor() {
         return color;
     }
+
+    public void setColor(Paint color) {
+        this.color = color;
+    }
 }

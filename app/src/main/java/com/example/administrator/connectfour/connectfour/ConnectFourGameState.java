@@ -225,9 +225,9 @@ public class ConnectFourGameState extends GameState {
                 }
             }
 //        check diagonally down-left
-//            - only if column idx is less than 4 & row idx is greater than 2
+//            - only if column idx is less than 2 & row idx is greater than 4
             boolean win8 = false;
-            if (col > 4 && row > 2) {
+            if (col > 2 && row > 2) {
                 for (int i = 0; i < 4; i++) {
                     if (gameBoard[row - i][col - i] == token) { //crashes on the 2nd from top row of first column
                         win8 = true;
