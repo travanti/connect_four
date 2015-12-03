@@ -9,8 +9,8 @@ import android.graphics.Paint;
 public class TokenMovable {
     int radius;
     Paint color;
-    int xPos;
-    int yPos;
+    float xPos;
+    float yPos;
     public TokenMovable(Paint color, int xPos, int yPos){
         this.color = color;
         this.xPos = xPos;
@@ -26,19 +26,19 @@ public class TokenMovable {
         return color;
     }
 
-    public int getxPos() {
+    public float getxPos() {
         return xPos;
     }
 
-    public int getyPos() {
+    public float getyPos() {
         return yPos;
     }
 
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
+    public void setyPos(float yPos) {
+        this.yPos += yPos;
     }
 
-    public void setxPos(int xPos){
-        this.xPos = xPos;
+    public void setxPos(float xPos){
+        this.xPos += xPos;
     }
 }

@@ -3,10 +3,7 @@ package com.example.administrator.connectfour.animation;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.RectF;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 import com.example.administrator.connectfour.MainActivity;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
@@ -31,6 +28,14 @@ public class ConnectFourAnimator implements Animator {
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(Color.RED, 130, 1000);
     TokenPool p2Pool = new TokenPool(Color.YELLOW, 1650, 1000);
+    public static final int TOKEN_POOL_X1 = 130;
+    public static final int TOKEN_POOL_X2 = 1650;
+    public static final int TOKEN_POOL_Y = 1000;
+    private boolean movingStatus = false;
+    Paint blah = new Paint(RED);
+    TokenMovable marker= new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y);
+
+
     int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
@@ -63,11 +68,15 @@ public class ConnectFourAnimator implements Animator {
     @Override
     public void tick(Canvas canvas) {
         //check if the board has been touched yet
-        if (touched == false) {
+        if (!touched) {
             board.draw(canvas);
             p1Pool.draw(canvas); //to draw pool positions
             p2Pool.draw(canvas);
             return;
+        }
+        if(movingStatus)
+        {
+            marker.draw(canvas, marker.color);
         }
 
 
@@ -121,15 +130,50 @@ public class ConnectFourAnimator implements Animator {
 
         if (won) {return;} //don't do anything
 
+
+        //TODO implement dragging from a pool
         //create a new token
         float x = event.getX();
+        float y = event.getY();
+        Paint poolColor = new Paint();
+        poolColor.setColor(RED);
+//        TokenMovable marker = new TokenMovable(poolColor, TOKEN_POOL_X1, TOKEN_POOL_Y);
+        if(event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            if(x <= TOKEN_POOL_X1 - Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
+            {
+//                poolColor.setColor(RED);
+                marker.setxPos(marker.getxPos()-TOKEN_POOL_X1);
+                marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                movingStatus = true;
+            }
+            if(x <= TOKEN_POOL_X2 - Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
+            {
+//                poolColor.setColor(YELLOW);
+//                marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
+                marker.setxPos(marker.getxPos()-TOKEN_POOL_X2);
+                marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                movingStatus = true;
+            }
+        }
+
+        if(event.getAction() == MotionEvent.ACTION_MOVE){
+            if(movingStatus = true)
+            {
+                float currX = marker.getxPos();
+                float currY = marker.getyPos();
+                float diffX = currX - event.getX();
+                float diffY = currY - event.getY();
+                marker.setxPos(diffX);
+                marker.setyPos(diffY);
+            }
+        }
 
         if (event.getAction() == MotionEvent.ACTION_UP) { //when user releases finger
             int col = getColumn(x);
+            movingStatus = false;
             //check if column is valid
             if (col == -1) {return;}
-
-            //TODO implement dragging from a pool
 
             touched = true;
             Paint pPaint = new Paint();
