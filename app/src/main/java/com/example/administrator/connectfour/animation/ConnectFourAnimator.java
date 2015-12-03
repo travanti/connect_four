@@ -185,5 +185,9 @@ public class ConnectFourAnimator implements Animator {
         won = b;
     }
 
+    public void addTokenAI(Token t) {
+        tokens.add(t);
+    }
+
 
 }
