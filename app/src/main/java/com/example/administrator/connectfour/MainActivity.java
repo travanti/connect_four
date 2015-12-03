@@ -1,20 +1,18 @@
 package com.example.administrator.connectfour;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Handler;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.connectfour.animation.AnimationCanvas;
 import com.example.administrator.connectfour.animation.Animator;
 import com.example.administrator.connectfour.animation.ConnectFourAnimator;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
-import com.example.administrator.connectfour.connectfour.GameTitleThread;
 
 
 public class MainActivity extends Activity {
@@ -22,7 +20,6 @@ public class MainActivity extends Activity {
     TextView titleText;
     ImageButton optionsBtn;
     public static ConnectFourGameState gameState;
-    GameTitleThread gtThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +30,48 @@ public class MainActivity extends Activity {
         gameState = new ConnectFourGameState();
         //add other views to activity
         titleText = (TextView) findViewById(R.id.mainText);
-        titleText.setText("Player 1's turn");
+        titleText.setText("Connect Four");
         optionsBtn = (ImageButton) findViewById(R.id.optionsButton);
         //add animation canvas to activity
         Animator connectFourAnim = new ConnectFourAnimator();
         AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         mainLayout.addView(myCanvas);
-        //gtThread = new GameTitleThread(gameState, titleText);
-        //gtThread.run();
+        startTextThread();
+    }
+
+    /**
+     * thread that changes the title text according to info about the Game State
+     */
+    private void startTextThread() {
+        final Handler handler = new Handler();
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!gameState.getGameIsWon()){ //display current player
+                                titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
+                            }
+                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID){//game is won
+                                titleText.setText("PLAYER 2 HAS WON!");
+                            }
+                            else{
+                                titleText.setText("PLAYER 1 HAS WON!");
+                            }
+                        }
+                    });
+                }
+            }
+        };
+        new Thread(run).start();
     }
 
     @Override
