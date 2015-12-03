@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.administrator.connectfour.MainActivity;
@@ -27,13 +28,12 @@ public class ConnectFourAnimator implements Animator {
     public static final int SLOT_LENGTH = 180;
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
-    //TODO replace the 1D array list with 2D array list
-//    ArrayList[][] freeSpaces = new ArrayList[7][6];
-//
-//    public static final int SPACE_FREE = 0;
-//    public static final int SPACE_TAKEN = 1;
-//    public static final int SPACE_RED = 2;
-//    public static final int SPACE_YELLOW = 3;
+    //constants and instances to control token pool and dragged tokens
+    public final static int TOKEN_POOL_X1 = 130;
+    public final static int TOKEN_POOL_X2 = 1650;
+    public final static int TOKEN_POOL_Y = 1000;
+    public boolean dragStatus1 = false;
+    public boolean dragStatus2 = false;
 
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(Color.RED, 130, 1000);
@@ -44,6 +44,9 @@ public class ConnectFourAnimator implements Animator {
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
     boolean won = false; //used when the player wins to blink a token
+    private LinearLayout layout;
+
+
 
     @Override
     public int interval() {
@@ -120,19 +123,27 @@ public class ConnectFourAnimator implements Animator {
 
         //create a new token
         float x = event.getX();
-//        Token marker = new Token();
-//
-//        //create a token on tap release
-//        if(event.getAction(() == MotionEvent.ACTION_DOWN) {
-//            if(x <= 130 - Token.RADIUS && x >= 130 - Token.RADIUS && y <= 1000 - Token.RADIUS && y >= 1000 + Token.RADIUS)
-//            {
-//
-//            }
-//            if(x <= 1650 - Token.RADIUS && x >= 1650 - Token.RADIUS && y <= 1000 - Token.RADIUS && y >= 1000 + Token.RADIUS)
-//            {
-//
-//            }
-//        }
+        float y = event.getY();
+        TokenMovable marker;
+        //create a token on tap at the location of the token pools
+       if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            Paint pPaint = new Paint();
+
+            if(x <= 130 - Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
+            {
+                dragStatus1 = true;
+                pPaint.setColor(RED);
+                marker = new TokenMovable(pPaint, TOKEN_POOL_X1, TOKEN_POOL_Y);
+            }
+            if(x <= 1650 - Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
+            {
+                dragStatus2 = true;
+                pPaint.setColor(YELLOW);
+                marker = new TokenMovable(pPaint, TOKEN_POOL_X2, TOKEN_POOL_Y);
+            }
+        }
+
+
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             int col = getColumn(x);
