@@ -36,6 +36,8 @@ public class ConnectFourGameState extends GameState {
                                        //first index is row, second index is column
     boolean gameIsWon = false;
 
+    static int count1 = 0;
+
     /**
      * constructor
      */
@@ -117,8 +119,8 @@ public class ConnectFourGameState extends GameState {
 
     /**
      *
-     * @param row row the last piece was dropped
-     * @param col col the last piece was dropped
+     * @param row row the piece was dropped
+     * @param col col the piece was dropped
      * @param playerID current player
      * @return true if the current player has won, false if not
      */
@@ -229,7 +231,7 @@ public class ConnectFourGameState extends GameState {
             boolean win8 = false;
             if (col > 2 && row > 2) {
                 for (int i = 0; i < 4; i++) {
-                    if (gameBoard[row - i][col - i] == token) { //crashes on the 2nd from top row of first column
+                    if (gameBoard[row - i][col - i] == token) {
                         win8 = true;
                     } else {
                         win8 = false;
@@ -237,8 +239,18 @@ public class ConnectFourGameState extends GameState {
                     }
                 }
             }
+            //check for in-between token - only necessary horizontally and diagonally
+            boolean win9 = false;
+            boolean win10 = false;
+            boolean win11 = false;
+            if(col > 0 && col < 6){
+                win9 = hasWon(row, col-1, playerID); //check horizontal in-betweeners
+                if(row > 0 && row < 5){
+                    win10 = hasWon(row - 1, col - 1, playerID); //check up-right diagonal in-betweeners
+                }//TODO check up left diagonal win using recursion??
+            }
 
-            if (win1 || win2 || win3 || win4 || win5 || win6 || win7 || win8) {
+            if (win1 || win2 || win3 || win4 || win5 || win6 || win7 || win8 || win9 || win10 || win11) {
                 gameIsWon = true;
                 return true;
             }
