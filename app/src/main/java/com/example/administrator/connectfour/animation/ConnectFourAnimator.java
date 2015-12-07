@@ -32,9 +32,9 @@ public class ConnectFourAnimator implements Animator {
     public static final int TOKEN_POOL_X2 = 1650;
     public static final int TOKEN_POOL_Y = 1000;
     private boolean movingStatus = false;
-    Paint blah = new Paint(RED);
-    TokenMovable marker= new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y);
-
+//    Paint blah = new Paint(RED);
+    TokenMovable marker;
+//    = new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y)
 
     int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
@@ -76,7 +76,9 @@ public class ConnectFourAnimator implements Animator {
         }
         if(movingStatus)
         {
-            marker.draw(canvas, marker.color);
+            synchronized (marker) {
+                marker.draw(canvas, marker.color);
+            }
         }
 
 
@@ -132,6 +134,7 @@ public class ConnectFourAnimator implements Animator {
 
 
         //TODO implement dragging from a pool
+        //example: http://javapapers.com/android/android-drag-and-drop/
         //create a new token
         float x = event.getX();
         float y = event.getY();
@@ -142,30 +145,37 @@ public class ConnectFourAnimator implements Animator {
         {
             if(x <= TOKEN_POOL_X1 - Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
             {
-//                poolColor.setColor(RED);
-                marker.setxPos(marker.getxPos()-TOKEN_POOL_X1);
-                marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
-                movingStatus = true;
+                synchronized (marker) {
+                    poolColor.setColor(RED);
+                    marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
+                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X1);
+                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                    movingStatus = true;
+                }
             }
             if(x <= TOKEN_POOL_X2 - Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
             {
-//                poolColor.setColor(YELLOW);
-//                marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
-                marker.setxPos(marker.getxPos()-TOKEN_POOL_X2);
-                marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
-                movingStatus = true;
+                synchronized (marker) {
+                    poolColor.setColor(YELLOW);
+                    marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
+                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X2);
+                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                    movingStatus = true;
+                }
             }
         }
 
         if(event.getAction() == MotionEvent.ACTION_MOVE){
             if(movingStatus = true)
             {
-                float currX = marker.getxPos();
-                float currY = marker.getyPos();
-                float diffX = currX - event.getX();
-                float diffY = currY - event.getY();
-                marker.setxPos(diffX);
-                marker.setyPos(diffY);
+                synchronized (marker) {
+                    float currX = marker.getxPos();
+                    float currY = marker.getyPos();
+                    float diffX = currX - event.getRawX();
+                    float diffY = currY - event.getRawY();
+                    marker.setxPos(diffX);
+                    marker.setyPos(diffY);
+                }
             }
         }
 
