@@ -28,9 +28,12 @@ public class ConnectFourAnimator implements Animator {
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
+    private int player1Color = Color.RED;
+    private int player2Color = Color.YELLOW;
+
     Board board = new Board(); //board to be drawn
-    TokenPool p1Pool = new TokenPool(Color.RED, 130, 1000);
-    TokenPool p2Pool = new TokenPool(Color.YELLOW, 1650, 1000);
+    TokenPool p1Pool = new TokenPool(player1Color, 130, 1000);
+    TokenPool p2Pool = new TokenPool(player2Color, 1650, 1000);
     int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
@@ -134,9 +137,9 @@ public class ConnectFourAnimator implements Animator {
             touched = true;
             Paint pPaint = new Paint();
             if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
-                pPaint.setColor(RED);
+                pPaint.setColor(player1Color);
             } else {
-                pPaint.setColor(YELLOW);
+                pPaint.setColor(player2Color);
             }
             Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
 
@@ -189,5 +192,11 @@ public class ConnectFourAnimator implements Animator {
         tokens.add(t);
     }
 
+    public static void setPlayer1Color(int player1Color) {
+        player1Color = player1Color;
+    }
 
+    public static void setPlayer2Color(int player2Color) {
+        player2Color = player2Color;
+    }
 }

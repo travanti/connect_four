@@ -1,10 +1,13 @@
 package com.example.administrator.connectfour;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ public class MainActivity extends Activity {
     TextView titleText;
     ImageButton optionsBtn;
     public static ConnectFourGameState gameState;
+    public static ConnectFourAnimator cfAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,16 @@ public class MainActivity extends Activity {
         titleText = (TextView) findViewById(R.id.mainText);
         titleText.setText("Connect Four");
         optionsBtn = (ImageButton) findViewById(R.id.optionsButton);
+        optionsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent options = new Intent(getApplicationContext(), OptionsMenu.class);
+                startActivity(options);
+            }
+        });
         //add animation canvas to activity
         Animator connectFourAnim = new ConnectFourAnimator();
+        cfAnim = (ConnectFourAnimator) connectFourAnim;
         AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         mainLayout.addView(myCanvas);
