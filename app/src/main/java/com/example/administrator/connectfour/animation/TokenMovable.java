@@ -35,10 +35,15 @@ public class TokenMovable {
     }
 
     public void setyPos(float yPos) {
-        this.yPos += yPos;
+        this.yPos = yPos;
     }
 
     public void setxPos(float xPos){
-        this.xPos += xPos;
+        this.xPos = xPos;
+    }
+
+    public void setColor(Paint color)
+    {
+        this.color = color;
     }
 }

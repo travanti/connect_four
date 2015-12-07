@@ -32,9 +32,9 @@ public class ConnectFourAnimator implements Animator {
     public static final int TOKEN_POOL_X2 = 1650;
     public static final int TOKEN_POOL_Y = 1000;
     private boolean movingStatus = false;
-//    Paint blah = new Paint(RED);
-    TokenMovable marker;
-//    = new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y)
+    Paint blah = new Paint();
+    TokenMovable marker= new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y);
+
 
     int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
@@ -72,14 +72,15 @@ public class ConnectFourAnimator implements Animator {
             board.draw(canvas);
             p1Pool.draw(canvas); //to draw pool positions
             p2Pool.draw(canvas);
+            marker.draw(canvas, marker.color);
             return;
         }
-        if(movingStatus)
-        {
-            synchronized (marker) {
-                marker.draw(canvas, marker.color);
-            }
-        }
+//        if(movingStatus)
+//        {
+//        synchronized (marker) {
+
+//        }
+//        }
 
 
         //we don't want an empty array list
@@ -100,26 +101,25 @@ public class ConnectFourAnimator implements Animator {
                     token.setyPos(SLOT_LENGTH * (6 - token.getRow()) + SLOT_LENGTH / 2 + 13);
                     //now check if someone has won
 
-                    if(won && token == winningToken){
+                    if (won && token == winningToken) {
                         //make the token blink
                         int color = winningTokenColor.getColor();
-                        if(counter <= 5){
+                        if (counter <= 5) {
                             token.setColor(winningTokenColor);
                             counter++;
-                        }
-                        else if(counter > 5 && counter <= 10){
+                        } else if (counter > 5 && counter <= 10) {
                             counter++;
                             Paint p = new Paint();
                             p.setColor(Color.WHITE);
                             token.setColor(p);
-                        }
-                        else{
+                        } else {
                             counter = 0;
                         }
                     }
                 }
             }
         }
+        marker.draw(canvas, marker.color);
         p1Pool.draw(canvas);
         p2Pool.draw(canvas);
         //draw the board last in order to make the pieces fall "behind"
@@ -130,60 +130,65 @@ public class ConnectFourAnimator implements Animator {
     @Override
     public void onTouch(MotionEvent event) {
 
-        if (won) {return;} //don't do anything
+        if (won) {
+            return;
+        } //don't do anything
 
 
         //TODO implement dragging from a pool
         //example: http://javapapers.com/android/android-drag-and-drop/
+        //note: can't create marker again, causes issues, also can't not have been made because it messes things up....
         //create a new token
         float x = event.getX();
         float y = event.getY();
         Paint poolColor = new Paint();
         poolColor.setColor(RED);
 //        TokenMovable marker = new TokenMovable(poolColor, TOKEN_POOL_X1, TOKEN_POOL_Y);
-        if(event.getAction() == MotionEvent.ACTION_DOWN)
-        {
-            if(x <= TOKEN_POOL_X1 - Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
-            {
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            touched = true;
+            if (x <= TOKEN_POOL_X1 - Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS) {
                 synchronized (marker) {
                     poolColor.setColor(RED);
-                    marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
-                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X1);
-                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                    //marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
+                    marker.setColor(poolColor);
+//                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X1);
+                    marker.setxPos(TOKEN_POOL_X1);
+//                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                    marker.setyPos(TOKEN_POOL_Y);
                     movingStatus = true;
                 }
             }
-            if(x <= TOKEN_POOL_X2 - Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS)
-            {
+            if (x <= TOKEN_POOL_X2 - Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS) {
                 synchronized (marker) {
                     poolColor.setColor(YELLOW);
-                    marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
-                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X2);
-                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                    // marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
+                    marker.setColor(poolColor);
+//                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X2);
+                    marker.setxPos(TOKEN_POOL_X2);
+//                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
+                    marker.setyPos(TOKEN_POOL_Y);
                     movingStatus = true;
                 }
             }
-        }
-
-        if(event.getAction() == MotionEvent.ACTION_MOVE){
-            if(movingStatus = true)
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             {
                 synchronized (marker) {
-                    float currX = marker.getxPos();
-                    float currY = marker.getyPos();
-                    float diffX = currX - event.getRawX();
-                    float diffY = currY - event.getRawY();
-                    marker.setxPos(diffX);
-                    marker.setyPos(diffY);
+//                    float currX = marker.getxPos();
+//                    float currY = marker.getyPos();
+//                    float diffX = currX - event.getRawX();
+//                    float diffY = currY - event.getRawY();
+                    marker.setxPos(event.getX());
+                    marker.setyPos(event.getY());
                 }
             }
-        }
-
-        if (event.getAction() == MotionEvent.ACTION_UP) { //when user releases finger
+        } else if (event.getAction() == MotionEvent.ACTION_UP) { //when user releases finger
             int col = getColumn(x);
             movingStatus = false;
             //check if column is valid
-            if (col == -1) {return;}
+            if (col == -1) {
+                return;
+            }
 
             touched = true;
             Paint pPaint = new Paint();
@@ -214,6 +219,7 @@ public class ConnectFourAnimator implements Animator {
             gameState.nextPlayer();
         }
     }
+
 
     private int getColumn(float x) {
         if (x > 260 && x < 260 + SLOT_LENGTH) {
