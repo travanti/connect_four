@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.administrator.connectfour.animation.AnimationCanvas;
 import com.example.administrator.connectfour.animation.Animator;
 import com.example.administrator.connectfour.animation.ConnectFourAnimator;
+import com.example.administrator.connectfour.connectfour.ConnectFourEasyAI;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 
@@ -69,8 +70,11 @@ public class MainActivity extends Activity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if(!gameState.getGameIsWon()){ //display current player
+                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() !=ConnectFourEasyAI.PlayerEasyAIid){ //display current player
                                 titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
+                            }
+                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != ConnectFourGameState.PLAYER1_ID && gameState.getCurrentPlayerID() != ConnectFourGameState.PLAYER2_ID){ //display current player
+                                titleText.setText("Easy AI's turn");
                             }
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID){//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");

@@ -15,22 +15,19 @@ public class   ConnectFourGameState extends GameState {
     //define player IDs
     public static final int PLAYER1_ID = 0;
     public static final int PLAYER2_ID = 1;
-    public static final int PlayerEasyAI = 2;
-    public static final int PlayerHardAI = 3;
+
 
     //constants for slots on the game board, so we know what is in each slot
     public static final int EMPTY = 0;
-    public static final int TAKEN = 1;
+   // public static final int TAKEN = 1;
     public static final int PLAYER1TOKEN = 2;
     public static final int PLAYER2TOKEN = 3;
-    public static final int PLAYEREASYAITOKEN = 4;
-    public static final int PLAYERHARDAITOKEN = 5;
+
 
 
     int player1Score; //total wins for player 1
     int player2Score; //total wins for player 2
-    int playerEasyAIScore; //total wins for easy AI
-    int playerHardAIScore; //total wins for hard AI
+
     int currentPlayerID; //player 1 ID = 0, player 2 ID = 1
     int[][] gameBoard = new int[6][7]; //a 2d matrix representing the game board
                                        //first index is row, second index is column
@@ -130,8 +127,11 @@ public class   ConnectFourGameState extends GameState {
 
             if (playerID == PLAYER1_ID) {
                 token = PLAYER1TOKEN;
-            } else {
+            } else if(playerID == PLAYER2_ID) {
                 token = PLAYER2TOKEN;
+            }
+            else{
+                token = ConnectFourEasyAI.PLAYEREASYAITOKEN;
             }
 
 //        we know the game board from instance variables.
@@ -270,9 +270,8 @@ public class   ConnectFourGameState extends GameState {
 
     public int getPlayer2Score() {return player2Score;}
 
-    public int getPlayerEasyAIScore() {return playerEasyAIScore;}
 
-    public int getPlayerHardAIScore() {return playerHardAIScore;}
+
 
     public int[][] getGameBoard() {return gameBoard;}
 
@@ -297,9 +296,6 @@ public class   ConnectFourGameState extends GameState {
 
     public void setPlayer2Score(int player2Score) {this.player2Score = player2Score;}
 
-    public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
-
-    public void setPlayerHardAIScore(int playerHardAIScore) {this.playerHardAIScore = playerHardAIScore;}
 
     public boolean getGameIsWon(){
         return gameIsWon;

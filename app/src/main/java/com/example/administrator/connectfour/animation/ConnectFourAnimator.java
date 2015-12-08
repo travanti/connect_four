@@ -30,6 +30,7 @@ public class ConnectFourAnimator implements Animator {
 
     private int player1Color = Color.RED;
     private int player2Color = Color.YELLOW;
+    private int easyAiplayerColor = Color.YELLOW;
 
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(player1Color, 130, 1000);
@@ -138,9 +139,13 @@ public class ConnectFourAnimator implements Animator {
             Paint pPaint = new Paint();
             if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
                 pPaint.setColor(player1Color);
-            } else {
+            } else if(gameState.getCurrentPlayerID() == gameState.PLAYER2_ID){
                 pPaint.setColor(player2Color);
             }
+            else{
+                pPaint.setColor(easyAiplayerColor);
+            }
+            //TODO: modify this to play with an AI
             Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
 
             synchronized (tokens) { //synchronize tokens in case thread uses the new token
