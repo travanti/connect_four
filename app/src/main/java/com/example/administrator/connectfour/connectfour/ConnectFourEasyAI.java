@@ -39,6 +39,7 @@ public class ConnectFourEasyAI extends ConnectFourGameState{
         else if(CFEasyAI.getCurrentPlayerID() != ConnectFourGameState.PLAYER1_ID){
             CFEasyAI.setCurrentPlayerID(PlayerEasyAIid);
             CFEasyAI.onPlayerMove(result);
+            CFEasyAI.nextPlayer();
         }
         return result;
     }
@@ -46,4 +47,5 @@ public class ConnectFourEasyAI extends ConnectFourGameState{
 
     public int getPlayerEasyAIScore() {return playerEasyAIScore;}
     public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
+
 }
