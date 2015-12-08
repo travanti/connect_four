@@ -79,8 +79,11 @@ public class MainActivity extends Activity {
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID){//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");
                             }
-                            else{
+                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER2_ID){
                                 titleText.setText("PLAYER 1 HAS WON!");
+                            }
+                            else if(gameState.getCurrentPlayerID() == ConnectFourEasyAI.PlayerEasyAIid){
+                                titleText.setText("EASY AI HAS WON");
                             }
                         }
                     });
