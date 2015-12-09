@@ -16,31 +16,34 @@ import static android.graphics.Color.*;
 /**
  * animates a canvas where the game will take place,
  * including tokens, a board and a token pool
+ * Additionally it makes use of a token movable object which serves as a marker for following
+ * the player's finger during "token drags" from the token pool
  * Created by garciah16 on 11/10/2015.
  * Editted by travanti16 on 11/25/2015
  * Editted by muller16 on 11/25/2015
+ * Eddited by travanti16 12/8/15
  */
 public class ConnectFourAnimator implements Animator {
     //constants
     public static final int SLOT_LENGTH = 180;
+    public static final int TOKEN_POOL_X1 = 130;
+    public static final int TOKEN_POOL_X2 = 1650;
+    public static final int TOKEN_POOL_Y = 1000;
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
     Board board = new Board(); //board to be drawn
-    TokenPool p1Pool = new TokenPool(Color.RED, 130, 1000);
-    TokenPool p2Pool = new TokenPool(Color.YELLOW, 1650, 1000);
-    public static final int TOKEN_POOL_X1 = 130;
-    public static final int TOKEN_POOL_X2 = 1650;
-    public static final int TOKEN_POOL_Y = 1000;
-    private boolean movingStatus = false;
+    TokenPool p1Pool = new TokenPool(Color.RED, TOKEN_POOL_X1, TOKEN_POOL_Y); //p1Token Pool
+    TokenPool p2Pool = new TokenPool(Color.YELLOW, TOKEN_POOL_X2, TOKEN_POOL_Y); //p2Token Pool
+    private boolean movingStatus = false; //used to make the marker not be drawn until moved
+
+    //Todo find a betttr way to initialize TokenMovable
     Paint blah = new Paint();
     TokenMovable marker= new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y);
-
 
     int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
-
     boolean won = false; //used when the player wins to blink a token
     Token winningToken; //make this token blink if its the winner
     Paint winningTokenColor;
@@ -76,18 +79,18 @@ public class ConnectFourAnimator implements Animator {
             board.draw(canvas);
             p1Pool.draw(canvas); //to draw pool positions
             p2Pool.draw(canvas);
-            Paint tempColor = new Paint();
-            tempColor.setColor(RED);
-//            marker.setColor(tempColor);
-            marker.draw(canvas, tempColor);
-            return;
+            if(movingStatus){
+                marker.draw(canvas, marker.getColor());
+            }
         }
 
 
         //we don't want an empty array list
+        Paint tempColor = new Paint();
         if (tokens.isEmpty()) {
             return;
         }
+
         //draw every token created on the board
         synchronized (tokens) { //prevent game from crashing
             for (Token token : tokens) {
@@ -140,43 +143,32 @@ public class ConnectFourAnimator implements Animator {
             return;
         } //don't do anything
 
-
-        //TODO implement dragging from a pool
-        //example: http://javapapers.com/android/android-drag-and-drop/
-        //note: can't create marker again, causes issues, also can't not have been made because it messes things up....
         //create a new token
         float x = event.getX();
         float y = event.getY();
         Paint poolColor = new Paint();
         poolColor.setColor(RED);
-//        TokenMovable marker = new TokenMovable(poolColor, TOKEN_POOL_X1, TOKEN_POOL_Y);
 
+        //check if token pool location was pressed to see if drag should begin and if so initalize proper colors
+        //also note use of else if chain, must be used so each case for event is ensured to be examined
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (x <= TOKEN_POOL_X1 + Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y >= TOKEN_POOL_Y -
                     Token.RADIUS && y <= TOKEN_POOL_Y + Token.RADIUS && gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
-//                synchronized (marker) {
-                    poolColor.setColor(RED);
-                    movingStatus = true;
-                    //marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
-                    marker.setColor(poolColor);
-//                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X1);
-                    marker.setxPos(TOKEN_POOL_X1);
-//                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
-                    marker.setyPos(TOKEN_POOL_Y);
-//                }
+                poolColor.setColor(RED);
+                movingStatus = true;
+                marker.setColor(poolColor);
+                marker.setxPos(TOKEN_POOL_X1);
+                marker.setyPos(TOKEN_POOL_Y);
             }
             if (x <= TOKEN_POOL_X2 + Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y >= TOKEN_POOL_Y -
                     Token.RADIUS && y <= TOKEN_POOL_Y + Token.RADIUS && gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
-//                synchronized (marker) {
-                    poolColor.setColor(YELLOW);
-                    movingStatus = true;
-                    // marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
-                    marker.setColor(poolColor);
-                    marker.setxPos(TOKEN_POOL_X2);
-                    marker.setyPos(TOKEN_POOL_Y);
-//                }
+                poolColor.setColor(YELLOW);
+                movingStatus = true;
+                marker.setColor(poolColor);
+                marker.setxPos(TOKEN_POOL_X2);
+                marker.setyPos(TOKEN_POOL_Y);
             }
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) { //adjust the marker coordinates if it is moving
             {
                 synchronized (marker) {
                     marker.setxPos(event.getX());
@@ -189,31 +181,34 @@ public class ConnectFourAnimator implements Animator {
             if (col == -1) {
                 movingStatus = false; //not a valid placement, therefore token disappears
                 return;
+            } else {
+                if (!tokens.isEmpty()) { //make sure something was dropped
+                    touched = true; //begin drawing in "token placed" mode
+                }
             }
-            else
-            {
-                touched = true; //begin drawing in "token placed" mode
-            }
-            if(movingStatus) { //ensure token was placed properly before executing any of the following
+            Token newToken;
+            if (movingStatus) { //ensure token was placed properly before executing any of the following
                 Paint pPaint = new Paint();
                 if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
                     pPaint.setColor(RED);
                 } else {
                     pPaint.setColor(YELLOW);
                 }
-                Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+                newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
 
                 synchronized (tokens) { //synchronize tokens in case thread uses the new token
-                    if (movingStatus && newToken.getRow() != -1) { //make sure token was dragged properly and that a valid row was returned
-                        tokens.add(newToken);
-                    }
+                    tokens.add(newToken);
                 }
-
+                //check if invalid move above board
+                if (newToken.getRow() == -1) {
+                    tokens.remove(newToken);
+                    movingStatus = false; //not a valid placement therefore it disappears
+                    return; //end the touch
+                }
                 //check if the token is the winning token
                 boolean hasWon = false; //default
                 movingStatus = false; //reset draggable so it is not drawn anymore
-                hasWon = gameState.hasWon(
-                        newToken.getRow() - 1, newToken.getCol() - 1, gameState.getCurrentPlayerID());
+                hasWon = gameState.hasWon(newToken.getRow() - 1, newToken.getCol() - 1, gameState.getCurrentPlayerID());
                 if (hasWon) {
                     won = true;
                     winningToken = newToken;
@@ -222,6 +217,7 @@ public class ConnectFourAnimator implements Animator {
                 gameState.nextPlayer();
             }
         }
+
     }
 
 
