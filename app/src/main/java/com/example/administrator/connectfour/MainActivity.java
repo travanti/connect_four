@@ -70,19 +70,19 @@ public class MainActivity extends Activity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() !=ConnectFourEasyAI.PlayerEasyAIid){ //display current player
+                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){ //display current player
                                 titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
                             }
-                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != ConnectFourGameState.PLAYER1_ID && gameState.getCurrentPlayerID() != ConnectFourGameState.PLAYER2_ID){ //display current player
+                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID){ //display current player
                                 titleText.setText("Easy AI's turn");
                             }
-                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID){//game is won
+                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()){//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");
                             }
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER2_ID){
                                 titleText.setText("PLAYER 1 HAS WON!");
                             }
-                            else if(gameState.getCurrentPlayerID() == ConnectFourEasyAI.PlayerEasyAIid){
+                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getEasyAIgame()){
                                 titleText.setText("EASY AI HAS WON");
                             }
                         }

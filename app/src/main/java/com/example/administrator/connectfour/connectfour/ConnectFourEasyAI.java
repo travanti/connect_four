@@ -12,12 +12,9 @@ public class ConnectFourEasyAI extends ConnectFourGameState{
     int playerEasyAIScore; //total wins for easy AI
 
 
-    ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
-
     public ConnectFourEasyAI(){
 
         playerEasyAIScore = 0;
-        CFEasyAI.currentPlayerID = PlayerEasyAIid;
     }
 
     public  ConnectFourEasyAI(ConnectFourEasyAI easyAI){
@@ -26,21 +23,17 @@ public class ConnectFourEasyAI extends ConnectFourGameState{
     this.currentPlayerID = easyAI.PlayerEasyAIid;
     }
 
-    public int easyAImove(int result){
+    public int easyAImove(){
        //make a random move to be placed in the gameboard
         Random r = new Random();
         int min = 1;
-        int max = 6;
-        result = r.nextInt(max-min) + min;
+        int max = 7;
+        int result = r.nextInt(max-min) + min;
 
-        if(result <1 || result > 6){
+        if(result <1 || result > 7){
             return -1;
         }
-        else if(CFEasyAI.getCurrentPlayerID() != ConnectFourGameState.PLAYER1_ID){
-            CFEasyAI.setCurrentPlayerID(PlayerEasyAIid);
-            CFEasyAI.onPlayerMove(result);
-            CFEasyAI.nextPlayer();
-        }
+
         return result;
     }
 

@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.example.administrator.connectfour.MainActivity;
+import com.example.administrator.connectfour.connectfour.ConnectFourEasyAI;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class ConnectFourAnimator implements Animator {
     public static final int SLOT_LENGTH = 180;
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
+
+    ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
+
 
     private int player1Color = Color.RED;
     private int player2Color = Color.YELLOW;
@@ -145,9 +149,19 @@ public class ConnectFourAnimator implements Animator {
             else{
                 pPaint.setColor(easyAiplayerColor);
             }
-            //TODO: modify this to play with an AI
-            Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+            Token newToken;
 
+            //TODO: modify this to play with an AI
+            if(gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
+                newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+            }
+            else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
+                int column = CFEasyAI.easyAImove();
+                newToken = new Token(pPaint, gameState.onPlayerMove(column-1),column);
+            }
+            else{
+                return;//new token was never initialized properly
+            }
             synchronized (tokens) { //synchronize tokens in case thread uses the new token
                 tokens.add(newToken);
                 //check if invalid move above board

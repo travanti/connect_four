@@ -15,6 +15,8 @@ public class   ConnectFourGameState extends GameState {
     //define player IDs
     public static final int PLAYER1_ID = 0;
     public static final int PLAYER2_ID = 1;
+    public static final int PLAYEREASYAI_ID = 2;
+
 
 
     //constants for slots on the game board, so we know what is in each slot
@@ -22,17 +24,19 @@ public class   ConnectFourGameState extends GameState {
    // public static final int TAKEN = 1;
     public static final int PLAYER1TOKEN = 2;
     public static final int PLAYER2TOKEN = 3;
-
+    public static final int PLAYEREASYAITOKEN = 4;
 
 
     int player1Score; //total wins for player 1
     int player2Score; //total wins for player 2
+    int playerEasyAIScore; //total wins for easy AI
 
     int currentPlayerID; //player 1 ID = 0, player 2 ID = 1
     int[][] gameBoard = new int[6][7]; //a 2d matrix representing the game board
                                        //first index is row, second index is column
     boolean gameIsWon = false;
-
+    boolean easyAIgame = true;
+    boolean hardAIgame = false;
     static int count1 = 0;
 
     /**
@@ -41,6 +45,7 @@ public class   ConnectFourGameState extends GameState {
     public ConnectFourGameState(){
         player1Score = 0;
         player2Score = 0;
+        playerEasyAIScore =0;
         currentPlayerID = PLAYER1_ID;
 
         //initialize entire gameboard to be empty
@@ -57,6 +62,7 @@ public class   ConnectFourGameState extends GameState {
     public ConnectFourGameState(ConnectFourGameState gameState){
         this.player1Score = gameState.getPlayer1Score();
         this.player2Score = gameState.getPlayer2Score();
+        this.playerEasyAIScore = gameState.getPlayerEasyAIScore();
         this.gameBoard = gameState.getGameBoard();
         this.currentPlayerID = gameState.getCurrentPlayerID();
     }
@@ -110,8 +116,19 @@ public class   ConnectFourGameState extends GameState {
                 }
             }
         }
+        else if(currentPlayerID == PLAYEREASYAI_ID){
+            for (int i = 0; i < 6; i++) {
+                if (this.gameBoard[i][col] == EMPTY) {
+                    //place the token
+                    this.gameBoard[i][col] = PLAYEREASYAITOKEN;
+                    return i+1;
+                }
+            }
+
+        }
         //else there's an error
             return -1;
+
     }
 
     /**
@@ -131,7 +148,7 @@ public class   ConnectFourGameState extends GameState {
                 token = PLAYER2TOKEN;
             }
             else{
-                token = ConnectFourEasyAI.PLAYEREASYAITOKEN;
+                token = PLAYEREASYAITOKEN;
             }
 
 //        we know the game board from instance variables.
@@ -282,12 +299,23 @@ public class   ConnectFourGameState extends GameState {
     }
 
     public void nextPlayer(){
-        if(currentPlayerID == PLAYER1_ID){
-            setCurrentPlayerID(PLAYER2_ID);
-        }
-        else{
-            setCurrentPlayerID(PLAYER1_ID);
-        }
+
+     if(easyAIgame == false && hardAIgame == false) {
+         if (currentPlayerID == PLAYER1_ID) {
+             setCurrentPlayerID(PLAYER2_ID);
+         } else {
+             setCurrentPlayerID(PLAYER1_ID);
+         }
+     }
+     else if(easyAIgame == true && hardAIgame == false){
+         if (currentPlayerID == PLAYER1_ID){
+             setCurrentPlayerID(PLAYEREASYAI_ID);
+         }
+         else{
+             setCurrentPlayerID(PLAYER1_ID);
+         }
+
+     }
     }
 
     public void setGameBoard(int[][] gameBoard) {this.gameBoard = gameBoard;}
@@ -296,10 +324,16 @@ public class   ConnectFourGameState extends GameState {
 
     public void setPlayer2Score(int player2Score) {this.player2Score = player2Score;}
 
+    public int getPlayerEasyAIScore() {return playerEasyAIScore;}
+
+    public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
+
 
     public boolean getGameIsWon(){
         return gameIsWon;
     }
+
+    public boolean getEasyAIgame() {return easyAIgame;}
 
 
 }
