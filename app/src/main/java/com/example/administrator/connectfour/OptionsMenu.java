@@ -32,7 +32,7 @@ public class OptionsMenu extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options_menu);
         final Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        //retrieve info from main activity
+        //retrieve intent from main activity
         //declare buttons
         p1Btn = (Button) findViewById(R.id.p1Button);
         p2Btn = (Button) findViewById(R.id.p2Button);
@@ -109,8 +109,7 @@ public class OptionsMenu extends ActionBarActivity {
         saveGoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //use following line to resume to old activity:
-                //i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                //start a new activity
                 startActivity(i);
             }
         });

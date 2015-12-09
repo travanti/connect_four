@@ -84,8 +84,9 @@ public class ConnectFourAnimator implements Animator {
 
     @Override
     public void tick(Canvas canvas) {
-        //if we are currently holding onto a marker (movable token) then draw the movable token following the finger
-
+        //make sure token pool colors match token colors
+        p1Pool.setColor(player1Color);
+        p2Pool.setColor(player2Color);
         //check if the board has been touched yet
         //and still draw the
         if (!touched) {
