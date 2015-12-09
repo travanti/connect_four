@@ -143,6 +143,8 @@ public class ConnectFourGameState extends GameState {
     public boolean hasWon(int row, int col, int playerID) {
         synchronized (gameBoard) {
             int token; //identify the type of token we are checking
+            if(row < 0 || col < 0)
+                return false;
 
             if (playerID == PLAYER1_ID) {
                 token = PLAYER1TOKEN;
