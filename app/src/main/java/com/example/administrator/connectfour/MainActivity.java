@@ -29,7 +29,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //get information from options
+        Bundle extras = getIntent().getExtras();
         //create game state to use in activity
         gameState = new ConnectFourGameState();
         //add other views to activity
@@ -44,8 +45,13 @@ public class MainActivity extends Activity {
             }
         });
         //add animation canvas to activity
-        Animator connectFourAnim = new ConnectFourAnimator();
+        ConnectFourAnimator connectFourAnim = new ConnectFourAnimator();
         cfAnim = (ConnectFourAnimator) connectFourAnim;
+        //change qualities of game based on options
+        if(extras != null){
+            connectFourAnim.setPlayer1Color(extras.getInt("player1Color"));
+            connectFourAnim.setPlayer2Color(extras.getInt("player2Color"));
+        }
         AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         mainLayout.addView(myCanvas);
@@ -84,6 +90,11 @@ public class MainActivity extends Activity {
             }
         };
         new Thread(run).start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

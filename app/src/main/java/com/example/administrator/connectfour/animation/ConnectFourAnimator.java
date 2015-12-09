@@ -188,15 +188,11 @@ public class ConnectFourAnimator implements Animator {
         won = b;
     }
 
-    public void addTokenAI(Token t) {
-        tokens.add(t);
+    public void setPlayer1Color(int player1Color) {
+        this.player1Color = player1Color;
     }
 
-    public static void setPlayer1Color(int player1Color) {
-        player1Color = player1Color;
-    }
-
-    public static void setPlayer2Color(int player2Color) {
-        player2Color = player2Color;
+    public void setPlayer2Color(int player2Color) {
+        this.player2Color = player2Color;
     }
 }
