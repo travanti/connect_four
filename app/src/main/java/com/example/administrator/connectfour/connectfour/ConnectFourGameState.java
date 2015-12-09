@@ -16,6 +16,7 @@ public class   ConnectFourGameState extends GameState {
     public static final int PLAYER1_ID = 0;
     public static final int PLAYER2_ID = 1;
     public static final int PLAYEREASYAI_ID = 2;
+    public static final int PLAYERHARDAI_ID = 3;
 
 
 
@@ -25,11 +26,13 @@ public class   ConnectFourGameState extends GameState {
     public static final int PLAYER1TOKEN = 2;
     public static final int PLAYER2TOKEN = 3;
     public static final int PLAYEREASYAITOKEN = 4;
+    public static final int PLAYERHARDAITOKEN = 5;
 
 
     int player1Score; //total wins for player 1
     int player2Score; //total wins for player 2
     int playerEasyAIScore; //total wins for easy AI
+    int getPlayerhardAIScore; //total wins for hard AI
 
     int currentPlayerID; //player 1 ID = 0, player 2 ID = 1
     int[][] gameBoard = new int[6][7]; //a 2d matrix representing the game board
@@ -37,7 +40,9 @@ public class   ConnectFourGameState extends GameState {
     boolean gameIsWon = false;
     boolean easyAIgame = true;
     boolean hardAIgame = false;
-    static int count1 = 0;
+    boolean stalemate = false;
+
+
 
     /**
      * constructor
@@ -126,6 +131,16 @@ public class   ConnectFourGameState extends GameState {
             }
 
         }
+        else if(currentPlayerID == PLAYERHARDAI_ID) {
+            for (int i = 0; i < 6; i++) {
+                if (this.gameBoard[i][col] == EMPTY) {
+                    //place the token
+                    this.gameBoard[i][col] = PLAYERHARDAITOKEN;
+                    return i + 1;
+                }
+            }
+
+        }
         //else there's an error
             return -1;
 
@@ -147,8 +162,11 @@ public class   ConnectFourGameState extends GameState {
             } else if(playerID == PLAYER2_ID) {
                 token = PLAYER2TOKEN;
             }
-            else{
+            else if(playerID ==PLAYEREASYAI_ID){
                 token = PLAYEREASYAITOKEN;
+            }
+            else{
+                token = PLAYERHARDAITOKEN;
             }
 
 //        we know the game board from instance variables.
@@ -256,6 +274,17 @@ public class   ConnectFourGameState extends GameState {
                     }
                 }
             }
+
+
+            //checks for a stalemate
+            for (int i=0; i<7; i++){
+                if(gameBoard[6-i][i] == 0  && gameBoard[i][7] == 0){
+                    stalemate = true;
+                break;
+                }
+
+            }
+
             //check for in-between token - only necessary horizontally and diagonally
             boolean win9 = false;
             boolean win10 = false;
@@ -316,6 +345,14 @@ public class   ConnectFourGameState extends GameState {
          }
 
      }
+     else if(hardAIgame == true && easyAIgame == false){
+         if (currentPlayerID == PLAYER1_ID){
+             setCurrentPlayerID(PLAYERHARDAI_ID);
+         }
+         else{
+             setCurrentPlayerID(PLAYER1_ID);
+         }
+     }
     }
 
     public void setGameBoard(int[][] gameBoard) {this.gameBoard = gameBoard;}
@@ -334,6 +371,10 @@ public class   ConnectFourGameState extends GameState {
     }
 
     public boolean getEasyAIgame() {return easyAIgame;}
+
+    public boolean getHardAIgame() {return hardAIgame;}
+
+    public boolean getStaleMate() {return stalemate;}
 
 
 }

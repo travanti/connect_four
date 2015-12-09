@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.administrator.connectfour.MainActivity;
 import com.example.administrator.connectfour.connectfour.ConnectFourEasyAI;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
+import com.example.administrator.connectfour.connectfour.ConnectFourHardAI;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ import static android.graphics.Color.*;
  * including tokens, a board and a token pool
  * Created by garciah16 on 11/10/2015.
  * Editted by travanti16 on 11/25/2015
- * Editted by muller16 on 11/25/2015
+ * Editted by mueller16 on 11/25/2015
  */
 public class ConnectFourAnimator implements Animator {
     //constants
@@ -30,11 +31,13 @@ public class ConnectFourAnimator implements Animator {
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
     ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
+    //ConnectFourHardAI CFHardAI = new ConnectFourHardAI();
 
 
     private int player1Color = Color.RED;
     private int player2Color = Color.YELLOW;
     private int easyAiplayerColor = Color.YELLOW;
+    private int hardAiplayerColor = Color.YELLOW;
 
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(player1Color, 130, 1000);
@@ -146,12 +149,14 @@ public class ConnectFourAnimator implements Animator {
             } else if(gameState.getCurrentPlayerID() == gameState.PLAYER2_ID){
                 pPaint.setColor(player2Color);
             }
+            else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
+                pPaint.setColor(easyAiplayerColor);
+            }
             else{
                 pPaint.setColor(easyAiplayerColor);
             }
             Token newToken;
 
-            //TODO: modify this to play with an AI
             if(gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
                 newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
             }
@@ -203,13 +208,8 @@ public class ConnectFourAnimator implements Animator {
         }
     }
 
-    public void setWon(boolean b){
-        won = b;
-    }
 
-    public void addTokenAI(Token t) {
-        tokens.add(t);
-    }
+
 
     public static void setPlayer1Color(int player1Color) {
         player1Color = player1Color;

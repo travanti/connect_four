@@ -85,6 +85,10 @@ public class MainActivity extends Activity {
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getEasyAIgame()){
                                 titleText.setText("EASY AI HAS WON");
                             }
+                            else if(gameState.getStaleMate() == true){//display this if a stalemate has occured
+                                titleText.setText("STALEMATE");
+
+                            }
                         }
                     });
                 }
