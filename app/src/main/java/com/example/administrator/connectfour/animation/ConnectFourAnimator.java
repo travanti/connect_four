@@ -69,10 +69,6 @@ public class ConnectFourAnimator implements Animator {
     @Override
     public void tick(Canvas canvas) {
         //if we are currently holding onto a marker (movable token) then draw the movable token following the finger
-        if(movingStatus)
-        {
-            marker.draw(canvas, marker.color);
-        }
 
         //check if the board has been touched yet
         //and still draw the
@@ -80,7 +76,10 @@ public class ConnectFourAnimator implements Animator {
             board.draw(canvas);
             p1Pool.draw(canvas); //to draw pool positions
             p2Pool.draw(canvas);
-
+            Paint tempColor = new Paint();
+            tempColor.setColor(RED);
+//            marker.setColor(tempColor);
+            marker.draw(canvas, tempColor);
             return;
         }
 
@@ -126,6 +125,11 @@ public class ConnectFourAnimator implements Animator {
         p2Pool.draw(canvas);
         //draw the board last in order to make the pieces fall "behind"
         board.draw(canvas);
+
+        if(movingStatus)
+        {
+            marker.draw(canvas, marker.color);
+        }
 
     }
 
