@@ -44,14 +44,38 @@ public class OptionsMenu extends ActionBarActivity {
 
         //onClick Listeners ---------------------------------------------------------------
 
+        //change number of players. changing to 1 player defaults to easy AI
+        p1Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set easy Ai game to true
+                i.putExtra("playerEasyAI", true);
+                i.putExtra("playerHardAI", false);
+                //set button text colors to indicate options
+                p1Btn.setTextColor(Color.RED);
+                easyAIBtn.setTextColor(Color.RED);
+            }
+        });
+        p2Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("playerEasyAI", false);
+                i.putExtra("playerHardAI", false);
+                //set button text colors to indicate options
+                p1Btn.setTextColor(Color.BLACK);
+                p2Btn.setTextColor(Color.RED);
+                easyAIBtn.setTextColor(Color.BLACK);
+                hardAIBtn.setTextColor(Color.BLACK);
+            }
+        });
         //change the token color to yellow-red
         yrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 i.putExtra("player1Color", Color.RED);
                 i.putExtra("player2Color", Color.YELLOW);
+                //set button text colors to indicate options
                 yrBtn.setTextColor(Color.RED);
-                //remove other btn state
                 bgBtn.setTextColor(Color.BLACK);
             }
         });
@@ -62,8 +86,8 @@ public class OptionsMenu extends ActionBarActivity {
                 Log.d("btn", "BG button clicked");
                 i.putExtra("player1Color", Color.GREEN);
                 i.putExtra("player2Color", Color.CYAN);
+                //set button text colors to indicate options
                 bgBtn.setTextColor(Color.RED);
-                //remove other btn state
                 yrBtn.setTextColor(Color.BLACK);
             }
         });

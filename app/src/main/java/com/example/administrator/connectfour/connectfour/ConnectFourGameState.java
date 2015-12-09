@@ -35,7 +35,8 @@ public class ConnectFourGameState extends GameState {
     int[][] gameBoard = new int[6][7]; //a 2d matrix representing the game board
     //first index is row, second index is column
     boolean gameIsWon = false;
-    boolean easyAIgame = true;
+    //constants indicating which type of game is being played
+    boolean easyAIgame = false;
     boolean hardAIgame = false;
     static int count1 = 0;
 
@@ -341,5 +342,7 @@ public class ConnectFourGameState extends GameState {
 
     public boolean getEasyAIgame() {return easyAIgame;}
 
-
+    public void setEasyAIgame(boolean easyAIgame) {
+        this.easyAIgame = easyAIgame;
+    }
 }

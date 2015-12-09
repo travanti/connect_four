@@ -24,7 +24,6 @@ public class MainActivity extends Activity {
     TextView titleText;
     ImageButton optionsBtn;
     public static ConnectFourGameState gameState;
-    public static ConnectFourAnimator cfAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +46,16 @@ public class MainActivity extends Activity {
         });
         //add animation canvas to activity
         ConnectFourAnimator connectFourAnim = new ConnectFourAnimator();
-        cfAnim = (ConnectFourAnimator) connectFourAnim;
         //change qualities of game based on options
         if(extras != null){
-            connectFourAnim.setPlayer1Color(extras.getInt("player1Color"));
-            connectFourAnim.setPlayer2Color(extras.getInt("player2Color"));
+            //set player number
+            gameState.setEasyAIgame(extras.getBoolean("playerEasyAI"));
+            //only change color if user chose that option.
+            if(extras.getInt("player1Color") != extras.getInt("player2Color")) {
+                connectFourAnim.setPlayer1Color(extras.getInt("player1Color"));
+                connectFourAnim.setPlayer2Color(extras.getInt("player2Color"));
+                connectFourAnim.setEasyAiplayerColor(extras.getInt("player2Color"));
+            }
         }
         AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);

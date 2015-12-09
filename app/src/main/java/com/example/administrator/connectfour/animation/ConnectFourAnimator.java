@@ -214,4 +214,9 @@ public class ConnectFourAnimator implements Animator {
     public void setPlayer2Color(int player2Color) {
         this.player2Color = player2Color;
     }
+
+    public void setEasyAiplayerColor(int easyAiplayerColor) {
+        this.easyAiplayerColor = easyAiplayerColor;
+    }
 }
+
