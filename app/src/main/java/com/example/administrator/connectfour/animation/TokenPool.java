@@ -33,4 +33,8 @@ public class TokenPool {
         canvas.drawCircle(this.xPos, this.yPos, this.radius, p);
 
     }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 }

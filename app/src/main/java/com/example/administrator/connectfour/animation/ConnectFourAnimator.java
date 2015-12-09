@@ -71,6 +71,9 @@ public class ConnectFourAnimator implements Animator {
 
     @Override
     public void tick(Canvas canvas) {
+        //make sure token pool colors match token colors
+        p1Pool.setColor(player1Color);
+        p2Pool.setColor(player2Color);
         //check if the board has been touched yet
         if (touched == false) {
             board.draw(canvas);
