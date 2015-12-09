@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
+import com.example.administrator.connectfour.GameFramework.infoMsg.GameState;
 import com.example.administrator.connectfour.MainActivity;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
@@ -67,20 +68,21 @@ public class ConnectFourAnimator implements Animator {
 
     @Override
     public void tick(Canvas canvas) {
+        //if we are currently holding onto a marker (movable token) then draw the movable token following the finger
+        if(movingStatus)
+        {
+            marker.draw(canvas, marker.color);
+        }
+
         //check if the board has been touched yet
+        //and still draw the
         if (!touched) {
             board.draw(canvas);
             p1Pool.draw(canvas); //to draw pool positions
             p2Pool.draw(canvas);
-            marker.draw(canvas, marker.color);
+
             return;
         }
-//        if(movingStatus)
-//        {
-//        synchronized (marker) {
-
-//        }
-//        }
 
 
         //we don't want an empty array list
@@ -119,7 +121,7 @@ public class ConnectFourAnimator implements Animator {
                 }
             }
         }
-        marker.draw(canvas, marker.color);
+        //draw the token pools after we've pressed the screen as well.
         p1Pool.draw(canvas);
         p2Pool.draw(canvas);
         //draw the board last in order to make the pieces fall "behind"
@@ -146,77 +148,75 @@ public class ConnectFourAnimator implements Animator {
 //        TokenMovable marker = new TokenMovable(poolColor, TOKEN_POOL_X1, TOKEN_POOL_Y);
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//            touched = true;
-            if (x <= TOKEN_POOL_X1 - Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS) {
-                synchronized (marker) {
+            if (x <= TOKEN_POOL_X1 + Token.RADIUS && x >= TOKEN_POOL_X1 - Token.RADIUS && y >= TOKEN_POOL_Y -
+                    Token.RADIUS && y <= TOKEN_POOL_Y + Token.RADIUS && gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
+//                synchronized (marker) {
                     poolColor.setColor(RED);
+                    movingStatus = true;
                     //marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
                     marker.setColor(poolColor);
 //                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X1);
                     marker.setxPos(TOKEN_POOL_X1);
 //                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
                     marker.setyPos(TOKEN_POOL_Y);
-                    movingStatus = true;
-                }
+//                }
             }
-            if (x <= TOKEN_POOL_X2 - Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y <= TOKEN_POOL_Y - Token.RADIUS && y >= TOKEN_POOL_Y + Token.RADIUS) {
-                synchronized (marker) {
+            if (x <= TOKEN_POOL_X2 + Token.RADIUS && x >= TOKEN_POOL_X2 - Token.RADIUS && y >= TOKEN_POOL_Y -
+                    Token.RADIUS && y <= TOKEN_POOL_Y + Token.RADIUS && gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
+//                synchronized (marker) {
                     poolColor.setColor(YELLOW);
+                    movingStatus = true;
                     // marker = new TokenMovable(poolColor, TOKEN_POOL_X2, TOKEN_POOL_Y);
                     marker.setColor(poolColor);
-//                    marker.setxPos(marker.getxPos() - TOKEN_POOL_X2);
                     marker.setxPos(TOKEN_POOL_X2);
-//                    marker.setyPos(marker.getyPos() - TOKEN_POOL_Y);
                     marker.setyPos(TOKEN_POOL_Y);
-                    movingStatus = true;
-                }
+//                }
             }
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             {
                 synchronized (marker) {
-//                    float currX = marker.getxPos();
-//                    float currY = marker.getyPos();
-//                    float diffX = currX - event.getRawX();
-//                    float diffY = currY - event.getRawY();
                     marker.setxPos(event.getX());
                     marker.setyPos(event.getY());
                 }
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP) { //when user releases finger
             int col = getColumn(x);
-            movingStatus = false;
             //check if column is valid
             if (col == -1) {
+                movingStatus = false; //not a valid placement, therefore token disappears
                 return;
             }
-
-            touched = true;
-            Paint pPaint = new Paint();
-            if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
-                pPaint.setColor(RED);
-            } else {
-                pPaint.setColor(YELLOW);
+            else
+            {
+                touched = true; //begin drawing in "token placed" mode
             }
-            Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
-
-            synchronized (tokens) { //synchronize tokens in case thread uses the new token
-                tokens.add(newToken);
-                //check if invalid move above board
-                if (newToken.getRow() == -1) {
-                    tokens.remove(newToken);
-                    return; //end the touch
+            if(movingStatus) { //ensure token was placed properly before executing any of the following
+                Paint pPaint = new Paint();
+                if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
+                    pPaint.setColor(RED);
+                } else {
+                    pPaint.setColor(YELLOW);
                 }
+                Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+
+                synchronized (tokens) { //synchronize tokens in case thread uses the new token
+                    if (movingStatus && newToken.getRow() != -1) { //make sure token was dragged properly and that a valid row was returned
+                        tokens.add(newToken);
+                    }
+                }
+
+                //check if the token is the winning token
+                boolean hasWon = false; //default
+                movingStatus = false; //reset draggable so it is not drawn anymore
+                hasWon = gameState.hasWon(
+                        newToken.getRow() - 1, newToken.getCol() - 1, gameState.getCurrentPlayerID());
+                if (hasWon) {
+                    won = true;
+                    winningToken = newToken;
+                    winningTokenColor = newToken.getColor();
+                }
+                gameState.nextPlayer();
             }
-            //check if the token is the winning token
-            boolean hasWon = false; //default
-            hasWon = gameState.hasWon(
-                    newToken.getRow() - 1, newToken.getCol() - 1, gameState.getCurrentPlayerID());
-            if (hasWon) {
-                won = true;
-                winningToken = newToken;
-                winningTokenColor = newToken.getColor();
-            }
-            gameState.nextPlayer();
         }
     }
 
