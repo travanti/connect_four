@@ -3,10 +3,14 @@ package com.example.administrator.connectfour.animation;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.example.administrator.connectfour.GameFramework.infoMsg.GameState;
 import com.example.administrator.connectfour.MainActivity;
+import com.example.administrator.connectfour.connectfour.ConnectFourEasyAI;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 import java.util.ArrayList;
@@ -32,6 +36,14 @@ public class ConnectFourAnimator implements Animator {
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
+    //the easy AI player
+    ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
+
+    //indicate token and pool colors
+    private int player1Color = Color.RED;
+    private int player2Color = Color.YELLOW;
+    private int easyAiplayerColor = Color.YELLOW;
+
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(Color.RED, TOKEN_POOL_X1, TOKEN_POOL_Y); //p1Token Pool
     TokenPool p2Pool = new TokenPool(Color.YELLOW, TOKEN_POOL_X2, TOKEN_POOL_Y); //p2Token Pool
@@ -44,6 +56,7 @@ public class ConnectFourAnimator implements Animator {
     int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
     boolean touched = false; //don't start the game until it's started
+
     boolean won = false; //used when the player wins to blink a token
     Token winningToken; //make this token blink if its the winner
     Paint winningTokenColor;
@@ -105,18 +118,20 @@ public class ConnectFourAnimator implements Animator {
                     token.setyPos(SLOT_LENGTH * (6 - token.getRow()) + SLOT_LENGTH / 2 + 13);
                     //now check if someone has won
 
-                    if (won && token == winningToken) {
+                    if(won && token == winningToken){
                         //make the token blink
                         int color = winningTokenColor.getColor();
-                        if (counter <= 5) {
+                        if(counter <= 5){
                             token.setColor(winningTokenColor);
                             counter++;
-                        } else if (counter > 5 && counter <= 10) {
+                        }
+                        else if(counter > 5 && counter <= 10){
                             counter++;
                             Paint p = new Paint();
                             p.setColor(Color.WHITE);
                             token.setColor(p);
-                        } else {
+                        }
+                        else{
                             counter = 0;
                         }
                     }
@@ -139,9 +154,7 @@ public class ConnectFourAnimator implements Animator {
     @Override
     public void onTouch(MotionEvent event) {
 
-        if (won) {
-            return;
-        } //don't do anything
+        if (won) {return;} //don't do anything
 
         //create a new token
         float x = event.getX();
@@ -181,10 +194,21 @@ public class ConnectFourAnimator implements Animator {
             if (col == -1) {
                 movingStatus = false; //not a valid placement, therefore token disappears
                 return;
-            } else {
-                if (!tokens.isEmpty()) { //make sure something was dropped
+            } else if (!tokens.isEmpty()) { //make sure something was dropped
                     touched = true; //begin drawing in "token placed" mode
                 }
+
+            //TODO implement dragging from a pool
+
+            touched = true;
+            Paint pPaint = new Paint();
+            if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
+                pPaint.setColor(player1Color);
+            } else if(gameState.getCurrentPlayerID() == gameState.PLAYER2_ID){
+                pPaint.setColor(player2Color);
+            }
+            else{
+                pPaint.setColor(easyAiplayerColor);
             }
             Token newToken;
             if (movingStatus) { //ensure token was placed properly before executing any of the following
@@ -196,9 +220,19 @@ public class ConnectFourAnimator implements Animator {
                 }
                 newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
 
-                synchronized (tokens) { //synchronize tokens in case thread uses the new token
-                    tokens.add(newToken);
+                //TODO: modify this to play with an AI
+                if(gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
+                    newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
                 }
+                else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
+                    int column = CFEasyAI.easyAImove();
+                    newToken = new Token(pPaint, gameState.onPlayerMove(column-1),column);
+                }
+                else{
+                    return;//new token was never initialized properly
+                }
+            synchronized (tokens) { //synchronize tokens in case thread uses the new token
+                tokens.add(newToken);
                 //check if invalid move above board
                 if (newToken.getRow() == -1) {
                     tokens.remove(newToken);
@@ -245,9 +279,16 @@ public class ConnectFourAnimator implements Animator {
         won = b;
     }
 
-    public void addTokenAI(Token t) {
-        tokens.add(t);
+    public void setPlayer1Color(int player1Color) {
+        this.player1Color = player1Color;
     }
 
+    public void setPlayer2Color(int player2Color) {
+        this.player2Color = player2Color;
+    }
 
+    public void setEasyAiplayerColor(int easyAiplayerColor) {
+        this.easyAiplayerColor = easyAiplayerColor;
+    }
 }
+

@@ -81,9 +81,10 @@
         android:text="@string/tokenColor"
         android:id="@+id/tokenColorText"
         android:textSize="30sp"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/ai_diffText"
-        android:layout_alignStart="@+id/ai_diffText" />
+        android:layout_below="@+id/easyButton"
+        android:layout_alignRight="@+id/ai_diffText"
+        android:layout_alignEnd="@+id/ai_diffText"
+        android:layout_marginTop="107dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -101,7 +102,8 @@
         android:id="@+id/bgButton"
         android:layout_alignTop="@+id/yrButton"
         android:layout_toRightOf="@+id/yrButton"
-        android:layout_toEndOf="@+id/yrButton" />
+        android:layout_toEndOf="@+id/yrButton"
+        android:clickable="false" />
 
     <Button
         android:layout_width="wrap_content"
@@ -109,8 +111,9 @@
         android:text="@string/savegoback"
         android:id="@+id/saveButton"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/yrButton"
-        android:layout_toStartOf="@+id/yrButton" />
+        android:layout_alignLeft="@+id/playersText"
+        android:layout_alignStart="@+id/playersText"
+        android:layout_marginBottom="71dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -118,6 +121,6 @@
         android:text="@string/cancel"
         android:id="@+id/cancelButton"
         android:layout_alignTop="@+id/saveButton"
-        android:layout_alignLeft="@+id/yrButton"
-        android:layout_alignStart="@+id/yrButton" />
+        android:layout_alignRight="@+id/optionsText"
+        android:layout_alignEnd="@+id/optionsText" />
 </RelativeLayout>
