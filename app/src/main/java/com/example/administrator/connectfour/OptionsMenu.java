@@ -1,6 +1,7 @@
 package com.example.administrator.connectfour;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class OptionsMenu extends ActionBarActivity {
                 //set button text colors to indicate options
                 p1Btn.setTextColor(Color.RED);
                 easyAIBtn.setTextColor(Color.RED);
+                p2Btn.setTextColor(Color.BLACK);
             }
         });
         p2Btn.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +67,18 @@ public class OptionsMenu extends ActionBarActivity {
                 p1Btn.setTextColor(Color.BLACK);
                 p2Btn.setTextColor(Color.RED);
                 easyAIBtn.setTextColor(Color.BLACK);
+                hardAIBtn.setTextColor(Color.BLACK);
+            }
+        });
+        easyAIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("playerEasyAI", true);
+                i.putExtra("playerHardAI", false);
+                //set button text colors to reflect choices
+                p1Btn.setTextColor(Color.RED);
+                p2Btn.setTextColor(Color.BLACK);
+                easyAIBtn.setTextColor(Color.RED);
                 hardAIBtn.setTextColor(Color.BLACK);
             }
         });

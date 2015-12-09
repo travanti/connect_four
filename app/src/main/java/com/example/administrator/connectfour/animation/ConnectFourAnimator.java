@@ -31,7 +31,7 @@ public class ConnectFourAnimator implements Animator {
 
     ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
 
-
+    //indicate token and pool colors
     private int player1Color = Color.RED;
     private int player2Color = Color.YELLOW;
     private int easyAiplayerColor = Color.YELLOW;
