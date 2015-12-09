@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.example.administrator.connectfour.MainActivity;
+import com.example.administrator.connectfour.connectfour.ConnectFourEasyAI;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 import java.util.ArrayList;
@@ -28,8 +29,12 @@ public class ConnectFourAnimator implements Animator {
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
+    ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
+
+
     private int player1Color = Color.RED;
     private int player2Color = Color.YELLOW;
+    private int easyAiplayerColor = Color.YELLOW;
 
     Board board = new Board(); //board to be drawn
     TokenPool p1Pool = new TokenPool(player1Color, 130, 1000);
@@ -138,11 +143,25 @@ public class ConnectFourAnimator implements Animator {
             Paint pPaint = new Paint();
             if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
                 pPaint.setColor(player1Color);
-            } else {
+            } else if(gameState.getCurrentPlayerID() == gameState.PLAYER2_ID){
                 pPaint.setColor(player2Color);
             }
-            Token newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+            else{
+                pPaint.setColor(easyAiplayerColor);
+            }
+            Token newToken;
 
+            //TODO: modify this to play with an AI
+            if(gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
+                newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+            }
+            else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
+                int column = CFEasyAI.easyAImove();
+                newToken = new Token(pPaint, gameState.onPlayerMove(column-1),column);
+            }
+            else{
+                return;//new token was never initialized properly
+            }
             synchronized (tokens) { //synchronize tokens in case thread uses the new token
                 tokens.add(newToken);
                 //check if invalid move above board
