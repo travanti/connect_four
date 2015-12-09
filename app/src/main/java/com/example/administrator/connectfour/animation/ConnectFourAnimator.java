@@ -29,6 +29,7 @@ public class ConnectFourAnimator implements Animator {
     //instance variables
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
+    //the easy AI player
     ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
 
     //indicate token and pool colors
