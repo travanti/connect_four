@@ -219,14 +219,15 @@ public class ConnectFourAnimator implements Animator {
                     pPaint.setColor(player2Color);
                 }
 
-                //TODO: modify this to play with an AI
                 if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
+                    //play a token on a column if it's a human player
                     newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
                 } else if (gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID) {
+                    //if it's the easy ai player make an easy ai move
                     int column = CFEasyAI.easyAImove();
                     newToken = new Token(pPaint, gameState.onPlayerMove(column - 1), column);
                 } else {
-                    return;//new token was never initialized properly
+                    return;//new token was never initialized properly, stop everything
                 }
                 synchronized (tokens) { //synchronize tokens in case thread uses the new token
                     tokens.add(newToken);
@@ -241,10 +242,12 @@ public class ConnectFourAnimator implements Animator {
                     movingStatus = false; //reset draggable so it is not drawn anymore
                     hasWon = gameState.hasWon(newToken.getRow() - 1, newToken.getCol() - 1, gameState.getCurrentPlayerID());
                     if (hasWon) {
+                        //the game is over so make the token flash
                         won = true;
                         winningToken = newToken;
                         winningTokenColor = newToken.getColor();
                     }
+                    //if it goes this far, the token has been played. switch to next player
                     gameState.nextPlayer();
                 }
             }
@@ -254,6 +257,7 @@ public class ConnectFourAnimator implements Animator {
 
 
     private int getColumn(float x) {
+        //do maths to figure out where in the canvas each column
         if (x > 260 && x < 260 + SLOT_LENGTH) {
             return 1;
         } else if (x > 260 + SLOT_LENGTH / 2 && x < 260 + SLOT_LENGTH * 2) {
