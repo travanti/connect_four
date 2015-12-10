@@ -22,6 +22,8 @@ import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 public class MainActivity extends Activity {
 
     TextView titleText;
+    TextView p1Text;
+    TextView p2Text;
     ImageButton optionsBtn;
     ImageButton restartBtn;
     public static ConnectFourGameState gameState;
@@ -41,6 +43,8 @@ public class MainActivity extends Activity {
         //add other views to activity
         titleText = (TextView) findViewById(R.id.mainText);
         titleText.setText("Connect Four");
+        p1Text = (TextView) findViewById(R.id.p1Text);
+        p2Text = (TextView) findViewById(R.id.p2Text);
         //enable options button
         optionsBtn = (ImageButton) findViewById(R.id.optionsButton);
         optionsBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +113,13 @@ public class MainActivity extends Activity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+                            p1Text.setText("P1 Wins: "+gameState.getPlayer1Score());
+                            if(gameState.getEasyAIgame()){
+                                p2Text.setText("Easy AI Wins: "+gameState.getPlayerEasyAIScore());
+                            }else{
+                                p2Text.setText("P2 Wins: "+gameState.getPlayer2Score());
+                            }
+
                             if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){ //display current player
                                 titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
                             }
@@ -124,6 +135,7 @@ public class MainActivity extends Activity {
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getEasyAIgame()){
                                 titleText.setText("EASY AI HAS WON");
                             }
+
                         }
                     });
                 }
