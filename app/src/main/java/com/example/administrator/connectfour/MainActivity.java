@@ -21,6 +21,7 @@ import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
 public class MainActivity extends Activity {
 
+    //views
     TextView titleText;
     TextView p1Text;
     TextView p2Text;
