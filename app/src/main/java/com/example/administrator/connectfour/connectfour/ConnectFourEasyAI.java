@@ -26,8 +26,8 @@ public class ConnectFourEasyAI extends ConnectFourGameState{
     public int easyAImove(){
        //make a random move to be placed in the gameboard
         Random r = new Random();
-        int min = 1;
-        int max = 7;
+        int min = 0;
+        int max = 8;
         int result = r.nextInt(max-min) + min;
 
         if(result <1 || result > 7){
@@ -36,6 +36,7 @@ public class ConnectFourEasyAI extends ConnectFourGameState{
 
         return result;
     }
+
 
 
     public int getPlayerEasyAIScore() {return playerEasyAIScore;}

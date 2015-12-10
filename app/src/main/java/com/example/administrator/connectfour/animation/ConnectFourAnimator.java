@@ -31,7 +31,7 @@ public class ConnectFourAnimator implements Animator {
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
     ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
-    //ConnectFourHardAI CFHardAI = new ConnectFourHardAI();
+    ConnectFourHardAI CFHardAI = new ConnectFourHardAI();
 
 
     private int player1Color = Color.RED;
@@ -162,6 +162,10 @@ public class ConnectFourAnimator implements Animator {
             }
             else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
                 int column = CFEasyAI.easyAImove();
+                newToken = new Token(pPaint, gameState.onPlayerMove(column-1),column);
+            }
+            else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAITOKEN){
+                int column = CFHardAI.hardAImove(gameState.getGameBoard(),gameState.getDepth());
                 newToken = new Token(pPaint, gameState.onPlayerMove(column-1),column);
             }
             else{

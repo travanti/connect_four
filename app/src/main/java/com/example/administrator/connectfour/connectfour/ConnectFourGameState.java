@@ -22,7 +22,6 @@ public class   ConnectFourGameState extends GameState {
 
     //constants for slots on the game board, so we know what is in each slot
     public static final int EMPTY = 0;
-   // public static final int TAKEN = 1;
     public static final int PLAYER1TOKEN = 2;
     public static final int PLAYER2TOKEN = 3;
     public static final int PLAYEREASYAITOKEN = 4;
@@ -33,14 +32,16 @@ public class   ConnectFourGameState extends GameState {
     int player2Score; //total wins for player 2
     int playerEasyAIScore; //total wins for easy AI
     int getPlayerhardAIScore; //total wins for hard AI
+    int depth = 2;//depth of search to be implemented in the hard AI move
+
 
     int currentPlayerID; //player 1 ID = 0, player 2 ID = 1
     int[][] gameBoard = new int[6][7]; //a 2d matrix representing the game board
                                        //first index is row, second index is column
     boolean gameIsWon = false;
-    boolean easyAIgame = true;
-    boolean hardAIgame = false;
-    boolean stalemate = false;
+    boolean easyAIgame = false;
+    boolean hardAIgame = true;
+    private boolean stalemate = false;
 
 
 
@@ -162,7 +163,7 @@ public class   ConnectFourGameState extends GameState {
             } else if(playerID == PLAYER2_ID) {
                 token = PLAYER2TOKEN;
             }
-            else if(playerID ==PLAYEREASYAI_ID){
+            else if(playerID == PLAYEREASYAI_ID){
                 token = PLAYEREASYAITOKEN;
             }
             else{
@@ -278,7 +279,7 @@ public class   ConnectFourGameState extends GameState {
 
             //checks for a stalemate
             for (int i=0; i<7; i++){
-                if(gameBoard[6-i][i] == 0  && gameBoard[i][7] == 0){
+                if(gameBoard[5][i] != 0 ){
                     stalemate = true;
                 break;
                 }
@@ -363,8 +364,9 @@ public class   ConnectFourGameState extends GameState {
 
     public int getPlayerEasyAIScore() {return playerEasyAIScore;}
 
-    public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
+    public int getGetPlayerhardAIScore() {return getPlayerhardAIScore;}
 
+    public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
 
     public boolean getGameIsWon(){
         return gameIsWon;
@@ -376,5 +378,5 @@ public class   ConnectFourGameState extends GameState {
 
     public boolean getStaleMate() {return stalemate;}
 
-
+    public int getDepth() {return depth;}
 }

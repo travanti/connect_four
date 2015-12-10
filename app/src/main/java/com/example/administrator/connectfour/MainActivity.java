@@ -70,11 +70,14 @@ public class MainActivity extends Activity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){ //display current player
+                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID && gameState.getCurrentPlayerID() != gameState.PLAYERHARDAI_ID){ //display current player
                                 titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
                             }
-                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID){ //display current player
+                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID && gameState.getCurrentPlayerID() != gameState.PLAYERHARDAI_ID){ //display current player
                                 titleText.setText("Easy AI's turn");
+                            }
+                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){
+                                titleText.setText("Hard AI's turn");
                             }
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()){//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");
@@ -82,10 +85,13 @@ public class MainActivity extends Activity {
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER2_ID){
                                 titleText.setText("PLAYER 1 HAS WON!");
                             }
-                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getEasyAIgame()){
+                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){
                                 titleText.setText("EASY AI HAS WON");
                             }
-                            else if(gameState.getStaleMate() == true){//display this if a stalemate has occured
+                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){
+                                titleText.setText("HARD AI HAS WON");
+                            }
+                            else if( gameState.getStaleMate() == true){//display this if a stalemate has occured
                                 titleText.setText("STALEMATE");
 
                             }
