@@ -201,7 +201,6 @@ public class ConnectFourAnimator implements Animator {
                 touched = true; //begin drawing in "token placed" mode
             }
 
-            touched = true;
             Paint pPaint = new Paint();
             if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
                 pPaint.setColor(player1Color);
@@ -211,6 +210,7 @@ public class ConnectFourAnimator implements Animator {
                 pPaint.setColor(easyAiplayerColor);
             }
             Token newToken;
+
             //add hard AI boolean to this if when implemented
             if (movingStatus || (gameState.getEasyAIgame() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID)) { //ensure token was placed properly before executing any of the following
                 if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {

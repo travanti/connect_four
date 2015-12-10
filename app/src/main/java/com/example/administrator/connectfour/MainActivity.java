@@ -80,8 +80,11 @@ public class MainActivity extends Activity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){ //display current player
+                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID && !gameState.getStalemate()){ //display current player
                                 titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
+                            } else if(gameState.getStalemate()) {
+                                titleText.setText("STALEMATE");
+                                //TODO add call to restart game after delay.
                             }
                             else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID){ //display current player
                                 titleText.setText("Easy AI's turn");

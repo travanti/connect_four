@@ -38,6 +38,7 @@ public class ConnectFourGameState extends GameState {
     //constants indicating which type of game is being played
     boolean easyAIgame = false;
     boolean hardAIgame = false;
+    private boolean stalemate = false;
     static int count1 = 0;
 
     /**
@@ -260,6 +261,15 @@ public class ConnectFourGameState extends GameState {
                     }
                 }
             }
+
+            //check for stalemate condition in order to signal if stalemate is reached
+
+            if (gameBoard[5][0] != 0 && gameBoard[5][1] != 0 && gameBoard[5][2] != 0 &&
+                    gameBoard[5][3] != 0 && gameBoard[5][4] != 0 && gameBoard[5][5] != 0 &&
+                    gameBoard[5][6] != 0) {
+                stalemate = true;
+            }
+
             //check for in-between token - only necessary horizontally and diagonally
             boolean win9 = false;
             boolean win10 = false;
@@ -290,6 +300,8 @@ public class ConnectFourGameState extends GameState {
             return false;
         }
     }
+
+
 
 
     public int getPlayer1Score() {return player1Score;}
@@ -337,6 +349,7 @@ public class ConnectFourGameState extends GameState {
 
     public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
 
+    public boolean getStalemate(){return stalemate;}
 
     public boolean getGameIsWon(){
         return gameIsWon;
