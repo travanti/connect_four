@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
@@ -127,6 +128,9 @@ public class ConnectFourAnimator implements Animator {
 
     }
 
+
+
+
     @Override
     public void onTouch(MotionEvent event) {
 
@@ -161,12 +165,12 @@ public class ConnectFourAnimator implements Animator {
                 newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
             }
             else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
-                int column = CFEasyAI.easyAImove();
-                newToken = new Token(pPaint, gameState.onPlayerMove(column-1),column);
+                int columnEasyAI = CFEasyAI.easyAImove();
+                newToken = new Token(pPaint, gameState.onPlayerMove(columnEasyAI-1),columnEasyAI);
             }
-            else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAITOKEN){
-                int column = CFHardAI.hardAImove(gameState.getGameBoard(),gameState.getDepth());
-                newToken = new Token(pPaint, gameState.onPlayerMove(column-1),column);
+            else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID){
+                int columnHardAI = CFHardAI.hardAImove(gameState.getGameBoard(),gameState.getDepth());
+                newToken = new Token(pPaint, gameState.onPlayerMove(columnHardAI-1),columnHardAI);
             }
             else{
                 return;//new token was never initialized properly

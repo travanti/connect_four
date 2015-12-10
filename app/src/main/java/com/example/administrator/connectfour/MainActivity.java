@@ -3,6 +3,7 @@ package com.example.administrator.connectfour;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.SensorEvent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.Menu;
@@ -53,6 +54,9 @@ public class MainActivity extends Activity {
         startTextThread();
     }
 
+
+
+
     /**
      * thread that changes the title text according to info about the Game State
      */
@@ -91,10 +95,7 @@ public class MainActivity extends Activity {
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){
                                 titleText.setText("HARD AI HAS WON");
                             }
-                            else if( gameState.getStaleMate() == true){//display this if a stalemate has occured
-                                titleText.setText("STALEMATE");
 
-                            }
                         }
                     });
                 }
@@ -126,4 +127,5 @@ public class MainActivity extends Activity {
 
 
     }
+
 }

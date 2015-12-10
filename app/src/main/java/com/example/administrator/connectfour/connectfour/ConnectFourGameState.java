@@ -1,5 +1,6 @@
 package com.example.administrator.connectfour.connectfour;
 
+import android.hardware.SensorEvent;
 import android.util.Log;
 
 import com.example.administrator.connectfour.GameFramework.infoMsg.GameState;
@@ -32,7 +33,7 @@ public class   ConnectFourGameState extends GameState {
     int player2Score; //total wins for player 2
     int playerEasyAIScore; //total wins for easy AI
     int getPlayerhardAIScore; //total wins for hard AI
-    int depth = 2;//depth of search to be implemented in the hard AI move
+    int depth = 3;//depth of search to be implemented in the hard AI move
 
 
     int currentPlayerID; //player 1 ID = 0, player 2 ID = 1
@@ -41,7 +42,6 @@ public class   ConnectFourGameState extends GameState {
     boolean gameIsWon = false;
     boolean easyAIgame = false;
     boolean hardAIgame = true;
-    private boolean stalemate = false;
 
 
 
@@ -277,14 +277,7 @@ public class   ConnectFourGameState extends GameState {
             }
 
 
-            //checks for a stalemate
-            for (int i=0; i<7; i++){
-                if(gameBoard[5][i] != 0 ){
-                    stalemate = true;
-                break;
-                }
 
-            }
 
             //check for in-between token - only necessary horizontally and diagonally
             boolean win9 = false;
@@ -311,6 +304,8 @@ public class   ConnectFourGameState extends GameState {
             return false;
         }
     }
+
+
 
 
     public int getPlayer1Score() {return player1Score;}
@@ -376,7 +371,6 @@ public class   ConnectFourGameState extends GameState {
 
     public boolean getHardAIgame() {return hardAIgame;}
 
-    public boolean getStaleMate() {return stalemate;}
 
     public int getDepth() {return depth;}
 }
