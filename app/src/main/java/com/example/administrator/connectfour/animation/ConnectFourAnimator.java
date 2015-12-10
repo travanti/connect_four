@@ -49,7 +49,7 @@ public class ConnectFourAnimator implements Animator {
     TokenPool p2Pool = new TokenPool(player2Color, TOKEN_POOL_X2, TOKEN_POOL_Y); //p2Token Pool
     private boolean movingStatus = false; //used to make the marker not be drawn until moved
 
-    //Todo find a betttr way to initialize TokenMovable
+    //the movable token that is drawn under finger
     Paint blah = new Paint();
     TokenMovable marker= new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y);
 

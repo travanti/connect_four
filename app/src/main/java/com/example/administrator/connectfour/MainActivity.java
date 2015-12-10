@@ -23,19 +23,25 @@ public class MainActivity extends Activity {
 
     TextView titleText;
     ImageButton optionsBtn;
+    ImageButton restartBtn;
     public static ConnectFourGameState gameState;
+    AnimationCanvas newCanvas;
+    MainActivity myAct = this;
+    Bundle extras;
+    ConnectFourAnimator[] connectFourAnim = new ConnectFourAnimator[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //get information from options
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
         //create game state to use in activity
         gameState = new ConnectFourGameState();
         //add other views to activity
         titleText = (TextView) findViewById(R.id.mainText);
         titleText.setText("Connect Four");
+        //enable options button
         optionsBtn = (ImageButton) findViewById(R.id.optionsButton);
         optionsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,22 +51,45 @@ public class MainActivity extends Activity {
             }
         });
         //add animation canvas to activity
-        ConnectFourAnimator connectFourAnim = new ConnectFourAnimator();
+        connectFourAnim[0] = new ConnectFourAnimator();
+        final AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim[0]);
+        final LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        mainLayout.addView(myCanvas);
+        //text thread to display current happenings in game
+        startTextThread();
+        //enable restart button
+        restartBtn = (ImageButton) findViewById(R.id.resetButton);
+        restartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //reset the game and the animation view
+                gameState = gameState.resetGame();
+                connectFourAnim[0] = new ConnectFourAnimator();
+                mainLayout.removeView(newCanvas);
+                newCanvas = new AnimationCanvas(myAct, connectFourAnim[0]);
+                //remove extrenuous canvases
+                mainLayout.removeView(myCanvas);
+                //add the new canvas
+                mainLayout.addView(newCanvas);
+                updateGameOptions();
+            }
+        });
         //change qualities of game based on options
+        updateGameOptions();
+    }
+
+    private void updateGameOptions(){
         if(extras != null){
             //set player number
             gameState.setEasyAIgame(extras.getBoolean("playerEasyAI"));
             //only change color if user chose that option.
             if(extras.getInt("player1Color") != extras.getInt("player2Color")) {
-                connectFourAnim.setPlayer1Color(extras.getInt("player1Color"));
-                connectFourAnim.setPlayer2Color(extras.getInt("player2Color"));
-                connectFourAnim.setEasyAiplayerColor(extras.getInt("player2Color"));
+                connectFourAnim[0].setPlayer1Color(extras.getInt("player1Color"));
+                connectFourAnim[0].setPlayer2Color(extras.getInt("player2Color"));
+                connectFourAnim[0].setEasyAiplayerColor(extras.getInt("player2Color"));
             }
         }
-        AnimationCanvas myCanvas = new AnimationCanvas(this, connectFourAnim);
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
-        mainLayout.addView(myCanvas);
-        startTextThread();
+
     }
 
     /**
@@ -84,7 +113,7 @@ public class MainActivity extends Activity {
                                 titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
                             }
                             else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID){ //display current player
-                                titleText.setText("Easy AI's turn");
+                                titleText.setText("Easy AI's turn (tap board to move)");
                             }
                             else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()){//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");
