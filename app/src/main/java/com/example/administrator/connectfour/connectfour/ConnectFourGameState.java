@@ -33,7 +33,7 @@ public class   ConnectFourGameState extends GameState {
     int player2Score; //total wins for player 2
     int playerEasyAIScore; //total wins for easy AI
     int getPlayerhardAIScore; //total wins for hard AI
-    int depth = 3;//depth of search to be implemented in the hard AI move
+    int depth = 0;//depth of search to be implemented in the hard AI move
 
 
     int currentPlayerID; //player 1 ID = 0, player 2 ID = 1

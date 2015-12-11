@@ -32,7 +32,7 @@ public class ConnectFourAnimator implements Animator {
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
     ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
-    ConnectFourHardAI CFHardAI = new ConnectFourHardAI();
+    ConnectFourHardAI CFHardAI = new ConnectFourHardAI(MainActivity.gameState);
 
 
     private int player1Color = Color.RED;
@@ -156,7 +156,7 @@ public class ConnectFourAnimator implements Animator {
             else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
                 pPaint.setColor(easyAiplayerColor);
             }
-            else{
+            else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID){
                 pPaint.setColor(easyAiplayerColor);
             }
             Token newToken;
@@ -169,7 +169,7 @@ public class ConnectFourAnimator implements Animator {
                 newToken = new Token(pPaint, gameState.onPlayerMove(columnEasyAI-1),columnEasyAI);
             }
             else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID){
-                int columnHardAI = CFHardAI.hardAImove(gameState.getGameBoard(),gameState.getDepth());
+                int columnHardAI = CFHardAI.hardAImove(gameState.getGameBoard(),gameState.getDepth(),this.won);
                 newToken = new Token(pPaint, gameState.onPlayerMove(columnHardAI-1),columnHardAI);
             }
             else{
@@ -185,8 +185,7 @@ public class ConnectFourAnimator implements Animator {
             }
             //check if the token is the winning token
             boolean hasWon = false; //default
-            hasWon = gameState.hasWon(
-                    newToken.getRow() - 1, newToken.getCol() - 1, gameState.getCurrentPlayerID());
+            hasWon = gameState.hasWon(newToken.getRow() - 1, newToken.getCol() - 1, gameState.getCurrentPlayerID());
             if (hasWon) {
                 won = true;
                 winningToken = newToken;
