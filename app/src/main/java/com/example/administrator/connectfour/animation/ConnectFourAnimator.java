@@ -169,7 +169,7 @@ public class ConnectFourAnimator implements Animator {
                 newToken = new Token(pPaint, gameState.onPlayerMove(columnEasyAI-1),columnEasyAI);
             }
             else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID){
-                int columnHardAI = CFHardAI.hardAImove(gameState.getGameBoard(),gameState.getDepth(),this.won);
+                int columnHardAI = CFHardAI.alternateHardAImove(gameState.getGameBoard());
                 newToken = new Token(pPaint, gameState.onPlayerMove(columnHardAI-1),columnHardAI);
             }
             else{
