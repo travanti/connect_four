@@ -18,8 +18,15 @@ public class TokenPool {
     int color;
     int xPos;
     int yPos;
-    
-    public TokenPool(int color, int x, int y){
+
+    /**
+     * constructor
+     *
+     * @param color color dependent on the player
+     * @param x     x coordinate to be drawn
+     * @param y     y coordinate to be drawn
+     */
+    public TokenPool(int color, int x, int y) {
         this.xPos = x;
         this.yPos = y;
         this.radius = Token.RADIUS;
@@ -27,10 +34,19 @@ public class TokenPool {
 
     }
 
-    public void draw(Canvas canvas){
+    /**
+     * draw the token pool at its position
+     *
+     * @param canvas canvas on which to be drawn
+     */
+    public void draw(Canvas canvas) {
         Paint p = new Paint();
         p.setColor(this.color);
         canvas.drawCircle(this.xPos, this.yPos, this.radius, p);
 
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }
