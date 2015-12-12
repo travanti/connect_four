@@ -117,6 +117,7 @@ public class OptionsMenu extends ActionBarActivity {
             public void onClick(View v) {
                 //start a new activity
                 startActivity(i);
+                finish(); //finish this activity so that
             }
         });
         //cancel and kill the activity

@@ -60,6 +60,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent options = new Intent(getApplicationContext(), OptionsMenu.class);
                 startActivity(options);
+                finish();
             }
         });
         //add animation canvas to activity
@@ -134,7 +135,8 @@ public class MainActivity extends Activity {
 
                             if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID) { //display current player
                                 titleText.setText("Player " + (gameState.getCurrentPlayerID() + 1) + "'s turn");
-                            } else if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID) { //display current player
+                            } else if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID &&
+                                    gameState.getCurrentPlayerID() != gameState.PLAYER2_ID) { //display current player
                                 titleText.setText("Easy AI's turn (tap board to move)");
                             } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()) {//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");
