@@ -18,10 +18,9 @@ public class ConnectFourGameState extends GameState {
     public static final int PLAYEREASYAI_ID = 2;
 
 
-
     //constants for slots on the game board, so we know what is in each slot
     public static final int EMPTY = 0;
-   // public static final int TAKEN = 1;
+    // public static final int TAKEN = 1;
     public static final int PLAYER1TOKEN = 2;
     public static final int PLAYER2TOKEN = 3;
     public static final int PLAYEREASYAITOKEN = 4;
@@ -46,7 +45,7 @@ public class ConnectFourGameState extends GameState {
     public ConnectFourGameState() {
         player1Score = 0;
         player2Score = 0;
-        playerEasyAIScore =0;
+        playerEasyAIScore = 0;
         currentPlayerID = PLAYER1_ID;
 
         //initialize entire gameboard to be empty
@@ -59,6 +58,8 @@ public class ConnectFourGameState extends GameState {
 
     /**
      * constructor
+     * used when creating a new game with same players,
+     * ie when restart button is pressed
      */
     public ConnectFourGameState(ConnectFourGameState gameState) {
         this.player1Score = gameState.getPlayer1Score();
@@ -117,41 +118,39 @@ public class ConnectFourGameState extends GameState {
                     return i + 1;
                 }
             }
-        }
-        else if(currentPlayerID == PLAYEREASYAI_ID){
+        } else if (currentPlayerID == PLAYEREASYAI_ID) {
             for (int i = 0; i < 6; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
                     //place the token
                     this.gameBoard[i][col] = PLAYEREASYAITOKEN;
-                    return i+1;
+                    return i + 1;
                 }
             }
 
         }
         //else there's an error
-            return -1;
-        
+        return -1;
+
     }
 
     /**
-     *
-     * @param row row the piece was dropped
-     * @param col col the piece was dropped
+     * @param row      row the piece was dropped
+     * @param col      col the piece was dropped
      * @param playerID current player
      * @return true if the current player has won, false if not
      */
     public boolean hasWon(int row, int col, int playerID) {
+
         synchronized (gameBoard) {
             int token; //identify the type of token we are checking
-            if(row < 0 || col < 0)
+            if (row < 0 || col < 0)
                 return false;
 
             if (playerID == PLAYER1_ID) {
                 token = PLAYER1TOKEN;
-            } else if(playerID == PLAYER2_ID) {
+            } else if (playerID == PLAYER2_ID) {
                 token = PLAYER2TOKEN;
-            }
-            else{
+            } else {
                 token = PLAYEREASYAITOKEN;
             }
 
@@ -264,21 +263,29 @@ public class ConnectFourGameState extends GameState {
             boolean win9 = false;
             boolean win10 = false;
             boolean win11 = false;
-            if (col > 0 && col < 6 && gameBoard[row][col - 1] == token && gameBoard[row][col + 1] == token) { //gameboard check allows for only one recursive path, therefore eliminating extra recursions
+            if (col > 0 && col < 6 && gameBoard[row][col - 1] == token && gameBoard[row][col + 1] == token) {
+                //gameboard check allows for only one recursive path, therefore eliminating extra recursions
                 win9 = hasWon(row, col - 1, playerID); //check horizontal in-betweener
             }
 
-            if (row > 0 && row < 5 && col > 0 && col < 6 && gameBoard[row - 1][col - 1] == token) { //gameboard check allows for only one recursive path, therefore eliminating extra recursions
+            if (row > 0 && row < 5 && col > 0 && col < 6 && gameBoard[row - 1][col - 1] == token) {
+                //gameboard check allows for only one recursive path, therefore eliminating extra recursions
                 win10 = hasWon(row - 1, col - 1, playerID); //check right diagonal in-betweeners
 
             }
 
-            if (row > 0 && row < 5 && col > 0 && col < 6 && gameBoard[row - 1][col + 1] == token) //gameboard check allows for only one recursive path, therefore eliminating extra recursions
-            {
+            if (row > 0 && row < 5 && col > 0 && col < 6 && gameBoard[row - 1][col + 1] == token) {
+                //gameboard check allows for only one recursive path, therefore eliminating extra recursions
                 win11 = hasWon(row - 1, col + 1, playerID); //check left diagonal in-betweeners
             }
 
             if (win1 || win2 || win3 || win4 || win5 || win6 || win7 || win8 || win9 || win10 || win11) {
+                //any win condition means the game has been won
+                if(gameIsWon){
+                    //don't increment scores if the game is already won
+                    //and scores have already been incremented
+                    return true;
+                }
                 gameIsWon = true;
                 if (currentPlayerID == PLAYER1_ID) {
                     player1Score++;
@@ -286,63 +293,81 @@ public class ConnectFourGameState extends GameState {
                     player2Score++;
                 }
                 return true;
+            }else{
+                //else the game has not been won
+                return false;
             }
-            return false;
         }
     }
 
 
-    public int getPlayer1Score() {return player1Score;}
+    public int getPlayer1Score() {
+        return player1Score;
+    }
 
-    public int getPlayer2Score() {return player2Score;}
+    public int getPlayer2Score() {
+        return player2Score;
+    }
 
 
+    public int[][] getGameBoard() {
+        return gameBoard;
+    }
 
-
-    public int[][] getGameBoard() {return gameBoard;}
-
-    public int getCurrentPlayerID() {return currentPlayerID;}
+    public int getCurrentPlayerID() {
+        return currentPlayerID;
+    }
 
     public void setCurrentPlayerID(int currentPlayerID) {
         this.currentPlayerID = currentPlayerID;
     }
 
-    public void nextPlayer(){
+    public void nextPlayer() {
 
-     if(easyAIgame == false && hardAIgame == false) {
-         if (currentPlayerID == PLAYER1_ID) {
-             setCurrentPlayerID(PLAYER2_ID);
-         } else {
-             setCurrentPlayerID(PLAYER1_ID);
-         }
-     }
-     else if(easyAIgame == true && hardAIgame == false){
-         if (currentPlayerID == PLAYER1_ID){
-             setCurrentPlayerID(PLAYEREASYAI_ID);
-         }
-         else{
-             setCurrentPlayerID(PLAYER1_ID);
-         }
+        if (easyAIgame == false && hardAIgame == false) {
+            if (currentPlayerID == PLAYER1_ID) {
+                setCurrentPlayerID(PLAYER2_ID);
+            } else {
+                setCurrentPlayerID(PLAYER1_ID);
+            }
+        } else if (easyAIgame == true && hardAIgame == false) {
+            if (currentPlayerID == PLAYER1_ID) {
+                setCurrentPlayerID(PLAYEREASYAI_ID);
+            } else {
+                setCurrentPlayerID(PLAYER1_ID);
+            }
 
-     }
+        }
     }
 
-    public void setGameBoard(int[][] gameBoard) {this.gameBoard = gameBoard;}
+    public void setGameBoard(int[][] gameBoard) {
+        this.gameBoard = gameBoard;
+    }
 
-    public void setPlayer1Score(int player1Score) {this.player1Score = player1Score;}
+    public void setPlayer1Score(int player1Score) {
+        this.player1Score = player1Score;
+    }
 
-    public void setPlayer2Score(int player2Score) {this.player2Score = player2Score;}
+    public void setPlayer2Score(int player2Score) {
+        this.player2Score = player2Score;
+    }
 
-    public int getPlayerEasyAIScore() {return playerEasyAIScore;}
+    public int getPlayerEasyAIScore() {
+        return playerEasyAIScore;
+    }
 
-    public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
+    public void setPlayerEasyAIScore(int playerEasyAIScore) {
+        this.playerEasyAIScore = playerEasyAIScore;
+    }
 
 
-    public boolean getGameIsWon(){
+    public boolean getGameIsWon() {
         return gameIsWon;
     }
 
-    public boolean getEasyAIgame() {return easyAIgame;}
+    public boolean getEasyAIgame() {
+        return easyAIgame;
+    }
 
     public void setEasyAIgame(boolean easyAIgame) {
         this.easyAIgame = easyAIgame;

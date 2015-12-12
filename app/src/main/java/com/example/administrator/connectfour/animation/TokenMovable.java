@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 /**
+ * instance of a movable token tat
  * Created by travanti16 on 12/2/2015.
  */
 public class TokenMovable {
@@ -11,6 +12,13 @@ public class TokenMovable {
     Paint color;
     float xPos;
     float yPos;
+
+    /**
+     * constructor
+     * @param color color of the drawn token
+     * @param xPos x coordinate of the canvas
+     * @param yPos y coordinate of the canvas
+     */
     public TokenMovable(Paint color, int xPos, int yPos){
         this.color = color;
         this.xPos = xPos;
@@ -18,6 +26,11 @@ public class TokenMovable {
         radius = (int) Token.RADIUS;
     }
 
+    /**
+     * draw the token on the canvas
+     * @param canvas canvas on which to be drawn
+     * @param color color of which to be drawn
+     */
     public void draw(Canvas canvas, Paint color){
         canvas.drawCircle(this.xPos, this.yPos, this.radius, color);
     }

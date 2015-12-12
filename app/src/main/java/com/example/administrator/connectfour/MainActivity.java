@@ -18,7 +18,14 @@ import com.example.administrator.connectfour.animation.ConnectFourAnimator;
 import com.example.administrator.connectfour.connectfour.ConnectFourEasyAI;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
-
+/**
+ * the main activity which holds the human player's GUI.
+ * the player(s) can play connect four and view aspects of the game state
+ * via text views.
+ *
+ * @author garciah16
+ * @version 12/12/15
+ */
 public class MainActivity extends Activity {
 
     //views
@@ -83,12 +90,16 @@ public class MainActivity extends Activity {
         updateGameOptions();
     }
 
-    private void updateGameOptions(){
-        if(extras != null){
+    /**
+     * recevies options from the options menu
+     * and creates a new gui based on the options
+     */
+    private void updateGameOptions() {
+        if (extras != null) {
             //set player number
             gameState.setEasyAIgame(extras.getBoolean("playerEasyAI"));
             //only change color if user chose that option.
-            if(extras.getInt("player1Color") != extras.getInt("player2Color")) {
+            if (extras.getInt("player1Color") != extras.getInt("player2Color")) {
                 connectFourAnim[0].setPlayer1Color(extras.getInt("player1Color"));
                 connectFourAnim[0].setPlayer2Color(extras.getInt("player2Color"));
                 connectFourAnim[0].setEasyAiplayerColor(extras.getInt("player2Color"));
@@ -114,26 +125,22 @@ public class MainActivity extends Activity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            p1Text.setText("P1 Wins: "+gameState.getPlayer1Score());
-                            if(gameState.getEasyAIgame()){
-                                p2Text.setText("Easy AI Wins: "+gameState.getPlayerEasyAIScore());
-                            }else{
-                                p2Text.setText("P2 Wins: "+gameState.getPlayer2Score());
+                            p1Text.setText("P1 Wins: " + gameState.getPlayer1Score());
+                            if (gameState.getEasyAIgame()) {
+                                p2Text.setText("Easy AI Wins: " + gameState.getPlayerEasyAIScore());
+                            } else {
+                                p2Text.setText("P2 Wins: " + gameState.getPlayer2Score());
                             }
 
-                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){ //display current player
-                                titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
-                            }
-                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID){ //display current player
+                            if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID) { //display current player
+                                titleText.setText("Player " + (gameState.getCurrentPlayerID() + 1) + "'s turn");
+                            } else if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID) { //display current player
                                 titleText.setText("Easy AI's turn (tap board to move)");
-                            }
-                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()){//game is won
+                            } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()) {//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");
-                            }
-                            else if(gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID){
+                            } else if (gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID) {
                                 titleText.setText("PLAYER 1 HAS WON!");
-                            }
-                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getEasyAIgame()){
+                            } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getEasyAIgame()) {
                                 titleText.setText("EASY AI HAS WON");
                             }
 

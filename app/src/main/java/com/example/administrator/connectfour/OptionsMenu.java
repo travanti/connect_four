@@ -14,10 +14,16 @@ import android.widget.Button;
 import com.example.administrator.connectfour.animation.ConnectFourAnimator;
 import com.example.administrator.connectfour.connectfour.ConnectFourGameState;
 
-
+/**
+ * an options menu activity that changes certain aspects
+ * of the game such as the types of players, color of tokens.
+ *
+ * @author garciah16
+ * @version 12/12/15
+ */
 public class OptionsMenu extends ActionBarActivity {
 
-    //buttons
+    //buttons in the activity
     Button p1Btn;
     Button p2Btn;
     Button easyAIBtn;

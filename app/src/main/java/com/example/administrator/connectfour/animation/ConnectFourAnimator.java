@@ -63,34 +63,40 @@ public class ConnectFourAnimator implements Animator {
     int counter = 0; //counting how long to blink token
 
     @Override
+    //interval of ticks per second to animate the canvas
     public int interval() {
         return 30;
     }
 
     @Override
+    //white background
     public int backgroundColor() {
         return WHITE;
     }
 
     @Override
+    //unused
     public boolean doPause() {
         return false;
     }
 
     @Override
+    //unused
     public boolean doQuit() {
         return false;
     }
 
     @Override
+    /**
+     * draw the tokens, token pools, the board,
+     * and make a token blink upon win
+     */
     public void tick(Canvas canvas) {
         //make sure token pool colors match token colors
         p1Pool.setColor(player1Color);
         p2Pool.setColor(player2Color);
-        //if we are currently holding onto a marker (movable token) then draw the movable token following the finger
 
         //check if the board has been touched yet
-        //and still draw the
         if (!touched) {
             board.draw(canvas);
             p1Pool.draw(canvas); //to draw pool positions
@@ -99,10 +105,7 @@ public class ConnectFourAnimator implements Animator {
                 marker.draw(canvas, marker.getColor());
             }
         }
-
-
         //we don't want an empty array list
-        Paint tempColor = new Paint();
         if (tokens.isEmpty()) {
             return;
         }
@@ -120,7 +123,6 @@ public class ConnectFourAnimator implements Animator {
                     token.setVelocity(0);
                     token.setyPos(SLOT_LENGTH * (6 - token.getRow()) + SLOT_LENGTH / 2 + 13);
                     //now check if someone has won
-
                     if(won && token == winningToken){
                         //make the token blink
                         int color = winningTokenColor.getColor();
@@ -147,14 +149,19 @@ public class ConnectFourAnimator implements Animator {
         //draw the board last in order to make the pieces fall "behind"
         board.draw(canvas);
 
+        //draw a marker when the player drags a token
         if(movingStatus)
         {
             marker.draw(canvas, marker.color);
         }
-
     }
 
     @Override
+    /**
+     * the touch method that updates the game state,
+     * animation, and everything else when the user
+     * touches the screen in a certain manner
+     */
     public void onTouch(MotionEvent event) {
 
         if (won) {
@@ -186,7 +193,8 @@ public class ConnectFourAnimator implements Animator {
                 marker.setxPos(TOKEN_POOL_X2);
                 marker.setyPos(TOKEN_POOL_Y);
             }
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) { //adjust the marker coordinates if it is moving
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+        //adjust the marker coordinates if it is moving
             {
                 synchronized (marker) {
                     marker.setxPos(event.getX());
@@ -203,6 +211,7 @@ public class ConnectFourAnimator implements Animator {
                 touched = true; //begin drawing in "token placed" mode
             }
 
+            //set the color of the token to be drawn
             Paint pPaint = new Paint();
             if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
                 pPaint.setColor(player1Color);
@@ -211,7 +220,7 @@ public class ConnectFourAnimator implements Animator {
             } else {
                 pPaint.setColor(easyAiplayerColor);
             }
-            Token newToken;
+            Token newToken; //this is the token being added to the board
             //add hard AI boolean to this if when implemented
             if (movingStatus || (gameState.getEasyAIgame() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID)) { //ensure token was placed properly before executing any of the following
                 if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
@@ -256,7 +265,12 @@ public class ConnectFourAnimator implements Animator {
         }
     }
 
-
+    /**
+     * method returns the column where the player has touched on the screen.
+     * calculated by the size of the board slots
+     * @param x x location on the screen where player has touched
+     * @return idx of column where player has touched, -1 if outside of board
+     */
     private int getColumn(float x) {
         //do maths to figure out where in the canvas each column
         if (x > 260 && x < 260 + SLOT_LENGTH) {

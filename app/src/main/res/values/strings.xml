@@ -17,7 +17,7 @@
     <string name="tokenColor">Token Color</string>
     <string name="bluegreen">Blue, Green</string>
     <string name="yellowred">Yellow, Red</string>
-    <string name="savegoback"><![CDATA[Save & Go Back]]></string>
+    <string name="savegoback">Create New Game</string>
     <string name="cancel">Cancel</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_game_main">Shall We Play A Game?</string>
