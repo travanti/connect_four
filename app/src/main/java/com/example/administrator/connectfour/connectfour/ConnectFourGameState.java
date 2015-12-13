@@ -1,5 +1,6 @@
 package com.example.administrator.connectfour.connectfour;
 
+import android.support.v4.app.NotificationCompatSideChannelService;
 import android.util.Log;
 
 import com.example.administrator.connectfour.GameFramework.infoMsg.GameState;
