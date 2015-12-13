@@ -40,11 +40,9 @@ public class ConnectFourGameState extends GameState {
     //first index is row, second index is column
     boolean gameIsWon = false;
     //constants indicating which type of game is being played
-    boolean easyAIgame = false;
-    boolean hardAIgame = false;
     static int count1 = 0;
     boolean easyAIgame = false;
-    boolean hardAIgame = true;
+    boolean hardAIgame = false;
 
     /**
      * constructor
@@ -312,6 +310,10 @@ public class ConnectFourGameState extends GameState {
                     player1Score++;
                 } else if (currentPlayerID == PLAYER2_ID) {
                     player2Score++;
+                } else if(currentPlayerID == PLAYEREASYAI_ID){
+                    playerEasyAIScore++;
+                } else{
+                    getPlayerhardAIScore++;
                 }
                 return true;
             }else{
@@ -338,10 +340,6 @@ public class ConnectFourGameState extends GameState {
     public int getCurrentPlayerID() {
         return currentPlayerID;
     }
-
-    public int[][] getGameBoard() {return gameBoard;}
-
-    public int getCurrentPlayerID() {return currentPlayerID;}
 
     public void setCurrentPlayerID(int currentPlayerID) {
         this.currentPlayerID = currentPlayerID;
@@ -401,7 +399,12 @@ public class ConnectFourGameState extends GameState {
         return easyAIgame;
     }
 
-    public boolean getHardAIgame() {return hardAIgame;}
+    public boolean getHardAIgame() {
+        return hardAIgame;
+    }
+
+
+    public void setHardAIgame(boolean hardAIgame) {this.hardAIgame = hardAIgame;}
 
 
     public int getDepth() {return depth;}

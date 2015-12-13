@@ -88,6 +88,18 @@ public class OptionsMenu extends ActionBarActivity {
                 hardAIBtn.setTextColor(Color.BLACK);
             }
         });
+        hardAIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("playerEasyAI", false);
+                i.putExtra("playerHardAI", true);
+                //set button text colors to reflect choices
+                p1Btn.setTextColor(Color.RED);
+                p2Btn.setTextColor(Color.BLACK);
+                easyAIBtn.setTextColor(Color.BLACK);
+                hardAIBtn.setTextColor(Color.RED);
+            }
+        });
         //change the token color to yellow-red
         yrBtn.setOnClickListener(new View.OnClickListener() {
             @Override

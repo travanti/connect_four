@@ -27,6 +27,7 @@ import static android.graphics.Color.*;
  * Editted by travanti16 on 11/25/2015
  * Editted by muller16 on 11/25/2015
  * Eddited by travanti16 12/8/15
+ * Edited by Mueller16 12/9/15
  */
 public class ConnectFourAnimator implements Animator {
     //constants
@@ -54,7 +55,7 @@ public class ConnectFourAnimator implements Animator {
 
     //the movable token that is drawn under finger
     Paint blah = new Paint();
-    TokenMovable marker= new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y);
+    TokenMovable marker = new TokenMovable(blah, TOKEN_POOL_X1, TOKEN_POOL_Y);
 
     int gravity = 3; //the pieces should fall realistically
     ConnectFourGameState gameState = MainActivity.gameState; //the current state of the game
@@ -104,7 +105,7 @@ public class ConnectFourAnimator implements Animator {
             board.draw(canvas);
             p1Pool.draw(canvas); //to draw pool positions
             p2Pool.draw(canvas);
-            if(movingStatus){
+            if (movingStatus) {
                 marker.draw(canvas, marker.getColor());
             }
         }
@@ -126,20 +127,18 @@ public class ConnectFourAnimator implements Animator {
                     token.setVelocity(0);
                     token.setyPos(SLOT_LENGTH * (6 - token.getRow()) + SLOT_LENGTH / 2 + 13);
                     //now check if someone has won
-                    if(won && token == winningToken){
+                    if (won && token == winningToken) {
                         //make the token blink
                         int color = winningTokenColor.getColor();
-                        if(counter <= 5){
+                        if (counter <= 5) {
                             token.setColor(winningTokenColor);
                             counter++;
-                        }
-                        else if(counter > 5 && counter <= 10){
+                        } else if (counter > 5 && counter <= 10) {
                             counter++;
                             Paint p = new Paint();
                             p.setColor(Color.WHITE);
                             token.setColor(p);
-                        }
-                        else{
+                        } else {
                             counter = 0;
                         }
                     }
@@ -153,8 +152,7 @@ public class ConnectFourAnimator implements Animator {
         board.draw(canvas);
 
         //draw a marker when the player drags a token
-        if(movingStatus)
-        {
+        if (movingStatus) {
             marker.draw(canvas, marker.color);
         }
     }
@@ -197,7 +195,7 @@ public class ConnectFourAnimator implements Animator {
                 marker.setyPos(TOKEN_POOL_Y);
             }
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-        //adjust the marker coordinates if it is moving
+            //adjust the marker coordinates if it is moving
             {
                 synchronized (marker) {
                     marker.setxPos(event.getX());
@@ -220,41 +218,40 @@ public class ConnectFourAnimator implements Animator {
                 pPaint.setColor(player1Color);
             } else if (gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
                 pPaint.setColor(player2Color);
-            }
-            else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
+            } else if (gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID) {
                 pPaint.setColor(easyAiplayerColor);
-            }           else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID){
+            } else if (gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID) {
                 pPaint.setColor(easyAiplayerColor);
             }
             Token newToken; //this is the token being added to the board
             //add hard AI boolean to this if when implemented
-            if (movingStatus || (gameState.getEasyAIgame() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID)) { //ensure token was placed properly before executing any of the following
+            if (movingStatus || ((gameState.getEasyAIgame() || gameState.getHardAIgame())
+                    && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID)) {
+                //ensure token was placed properly before executing any of the following
                 if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID) {
                     pPaint.setColor(player1Color);
                 } else {
                     pPaint.setColor(player2Color);
                 }
 
-            if(gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
-                newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
-            }
-            else if(gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID){
-                int columnEasyAI = CFEasyAI.easyAImove();
-                newToken = new Token(pPaint, gameState.onPlayerMove(columnEasyAI-1),columnEasyAI);
-            }
-            else if(gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID){
-                int columnHardAI = CFHardAI.alternateHardAImove(gameState.getGameBoard());
-                newToken = new Token(pPaint, gameState.onPlayerMove(columnHardAI-1),columnHardAI);
-            }
-            else{
-                return;//new token was never initialized properly
-            }
-            synchronized (tokens) { //synchronize tokens in case thread uses the new token
-                tokens.add(newToken);
-                //check if invalid move above board
-                if (newToken.getRow() == -1) {
-                    tokens.remove(newToken);
-                    return; //end the touch
+                if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
+                    newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
+                } else if (gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID) {
+                    int columnEasyAI = CFEasyAI.easyAImove();
+                    newToken = new Token(pPaint, gameState.onPlayerMove(columnEasyAI - 1), columnEasyAI);
+                } else if (gameState.getCurrentPlayerID() == gameState.PLAYERHARDAI_ID) {
+                    int columnHardAI = CFHardAI.alternateHardAImove(gameState.getGameBoard());
+                    newToken = new Token(pPaint, gameState.onPlayerMove(columnHardAI - 1), columnHardAI);
+                } else {
+                    return;//new token was never initialized properly
+                }
+                synchronized (tokens) { //synchronize tokens in case thread uses the new token
+                    tokens.add(newToken);
+                    //check if invalid move above board
+                    if (newToken.getRow() == -1) {
+                        tokens.remove(newToken);
+                        return; //end the touch
+                    }
                 }
                 synchronized (tokens) { //synchronize tokens in case thread uses the new token
                     tokens.add(newToken);
@@ -278,13 +275,14 @@ public class ConnectFourAnimator implements Animator {
                     gameState.nextPlayer();
                 }
             }
-        
+
         }
     }
 
     /**
      * method returns the column where the player has touched on the screen.
      * calculated by the size of the board slots
+     *
      * @param x x location on the screen where player has touched
      * @return idx of column where player has touched, -1 if outside of board
      */
@@ -309,7 +307,7 @@ public class ConnectFourAnimator implements Animator {
         }
     }
 
-    public void setWon(boolean b){
+    public void setWon(boolean b) {
         won = b;
     }
 

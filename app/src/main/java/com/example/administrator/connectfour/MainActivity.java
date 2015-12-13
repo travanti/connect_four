@@ -92,8 +92,6 @@ public class MainActivity extends Activity {
     }
 
 
-
-
     /**
      * recevies options from the options menu
      * and creates a new gui based on the options
@@ -102,6 +100,7 @@ public class MainActivity extends Activity {
         if (extras != null) {
             //set player number
             gameState.setEasyAIgame(extras.getBoolean("playerEasyAI"));
+            gameState.setHardAIgame(extras.getBoolean("playerHardAI"));
             //only change color if user chose that option.
             if (extras.getInt("player1Color") != extras.getInt("player2Color")) {
                 connectFourAnim[0].setPlayer1Color(extras.getInt("player1Color"));
@@ -132,32 +131,34 @@ public class MainActivity extends Activity {
                             p1Text.setText("P1 Wins: " + gameState.getPlayer1Score());
                             if (gameState.getEasyAIgame()) {
                                 p2Text.setText("Easy AI Wins: " + gameState.getPlayerEasyAIScore());
-                            } else {
+                            }
+                            else if (gameState.getHardAIgame()){
+                                p2Text.setText("Hard AI Wins: "+gameState.getGetPlayerhardAIScore());
+
+                            }else {
                                 p2Text.setText("P2 Wins: " + gameState.getPlayer2Score());
-                            if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID && gameState.getCurrentPlayerID() != gameState.PLAYERHARDAI_ID){ //display current player
-                                titleText.setText("Player "+ (gameState.getCurrentPlayerID()+1) +"'s turn");
+                            }
+                            if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID
+                                    && gameState.getCurrentPlayerID() != gameState.PLAYERHARDAI_ID) { //display current player
+                                titleText.setText("Player " + (gameState.getCurrentPlayerID() + 1) + "'s turn");
                             }
 
-                            if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID) { //display current player
+                            if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID
+                                    && gameState.getCurrentPlayerID() != gameState.PLAYERHARDAI_ID) { //display current player
                                 titleText.setText("Player " + (gameState.getCurrentPlayerID() + 1) + "'s turn");
-                            } else if (!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID) { //display current player
-                                titleText.setText("Easy AI's turn (tap board to move)");
-                            } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()) {//game is won
-                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID && gameState.getCurrentPlayerID() != gameState.PLAYERHARDAI_ID){ //display current player
-                                titleText.setText("Easy AI's turn");
-                            }
-                            else if(!gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYER2_ID && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){
-                                titleText.setText("Hard AI's turn");
-                            }
-                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && !gameState.getEasyAIgame()){//game is won
+                            } else if (!gameState.getGameIsWon() && (gameState.getHardAIgame() || gameState.getEasyAIgame())
+                                    && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID) { //display current player
+                                titleText.setText("AI's turn (tap board to move)");
+                            } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID
+                                    && !gameState.getEasyAIgame() && !gameState.getHardAIgame()) {//game is won
                                 titleText.setText("PLAYER 2 HAS WON!");
                             } else if (gameState.getGameIsWon() && gameState.getCurrentPlayerID() != gameState.PLAYER1_ID) {
                                 titleText.setText("PLAYER 1 HAS WON!");
-                            } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getEasyAIgame()) {
+                            } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID
+                                    && gameState.getEasyAIgame()) {
                                 titleText.setText("EASY AI HAS WON");
-                            }
-
-                            else if(gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID){
+                            } else if (gameState.getCurrentPlayerID() == ConnectFourGameState.PLAYER1_ID
+                                    && gameState.getCurrentPlayerID() != gameState.PLAYEREASYAI_ID) {
                                 titleText.setText("HARD AI HAS WON");
                             }
 
