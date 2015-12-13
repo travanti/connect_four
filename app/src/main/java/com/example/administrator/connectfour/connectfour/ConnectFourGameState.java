@@ -10,7 +10,7 @@ import com.example.administrator.connectfour.animation.ConnectFourAnimator;
  * handles the current state of the game, including initialization,
  * and win conditions.
  * Created by garciah16 on 10/30/2015.
- * Modified by Mueller16 on 11/30/2015
+ * Modified by Mueller16 on 11/30/2015 & 12/10/2015
  */
 public class ConnectFourGameState extends GameState {
 
@@ -86,9 +86,9 @@ public class ConnectFourGameState extends GameState {
         ConnectFourGameState newGame = new ConnectFourGameState();
         //save the current player scores
         newGame.setPlayer1Score(this.player1Score);
-        newGame.setPlayer2Score(this.player2Score);
+        newGame.setPlayer2Score(this.player2Score); //copy over player 2s score into the new game made
         newGame.setPlayerEasyAIScore(this.playerEasyAIScore); //copy over easy AIs score into the new game made
-        newGame.setPlayerHardAIScore(this.playerHardAIScore);
+        newGame.setPlayerHardAIScore(this.playerHardAIScore);//copu over hard AI score into the new game mode
         return newGame;
     }
 
@@ -330,7 +330,7 @@ public class ConnectFourGameState extends GameState {
         }
     }
 
-
+//getter methods
     public int getPlayer1Score() {
         return player1Score;
     }
@@ -357,13 +357,14 @@ public class ConnectFourGameState extends GameState {
     depending on the chosen settings
     */
     public void nextPlayer() {
-
+        //game between two human players
         if (easyAIgame == false && hardAIgame == false) {
             if (currentPlayerID == PLAYER1_ID) {
                 setCurrentPlayerID(PLAYER2_ID);
             } else {
                 setCurrentPlayerID(PLAYER1_ID);
             }
+          //game between an easy AI and human
         } else if (easyAIgame == true && hardAIgame == false) {
             if (currentPlayerID == PLAYER1_ID) {
                 setCurrentPlayerID(PLAYEREASYAI_ID);
@@ -372,11 +373,12 @@ public class ConnectFourGameState extends GameState {
             }
 
      }
-     else if(hardAIgame == true && easyAIgame == false){
-         if (currentPlayerID == PLAYER1_ID){
-             setCurrentPlayerID(PLAYERHARDAI_ID);
+        //game between a hard AI and human
+        else if(hardAIgame == true && easyAIgame == false){
+             if (currentPlayerID == PLAYER1_ID){
+                 setCurrentPlayerID(PLAYERHARDAI_ID);
          }
-         else{
+            else{
              setCurrentPlayerID(PLAYER1_ID);
          }
      }

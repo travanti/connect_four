@@ -157,6 +157,7 @@ public class ConnectFourHardAI {
                         break;
                     }
                 }
+                //AI blocks a human from winning in a diagonal up right direction
                 else if (board[i][j] == ConnectFourGameState.PLAYER1TOKEN && board[i + 1][j + 1] == ConnectFourGameState.PLAYER1TOKEN &&
                         board[i + 2][j + 2] == ConnectFourGameState.PLAYER1TOKEN && board[i + 3][j + 3] == CFgameState.EMPTY){
                         if (board[i+2][j+3] != CFgameState.EMPTY) { //checks if we are over a spot filled so token won't fall
@@ -187,6 +188,7 @@ public class ConnectFourHardAI {
                         break;
                     }
                 }
+                //AI blocks a human from winning in a diagonal up left direction
                 else if (board[i][j] == ConnectFourGameState.PLAYER1TOKEN && board[i + 1][j - 1] == ConnectFourGameState.PLAYER1TOKEN &&
                         board[i + 2][j - 2] == ConnectFourGameState.PLAYER1TOKEN && board[i + 3][j - 3] == CFgameState.EMPTY){
                     if (board[i + 2][j - 3] != CFgameState.EMPTY) { //checks if we are over a spot filled so token won't fall
@@ -217,6 +219,7 @@ public class ConnectFourHardAI {
                         break;
                     }
                 }
+                //AI blocks human from winning in a diagonal down right direction
                 else if (board[i][j] == ConnectFourGameState.PLAYER1TOKEN && board[i - 1][j + 1] == ConnectFourGameState.PLAYER1TOKEN &&
                         board[i - 2][j + 2] == ConnectFourGameState.PLAYER1TOKEN && board[i - 3][j + 3] == CFgameState.EMPTY){
                     if (board[i - 2][j + 3] != CFgameState.EMPTY) { //checks if we are over a spot filled so token won't fall
@@ -248,6 +251,7 @@ public class ConnectFourHardAI {
                         break;
                     }
                 }
+                // AI blocks human from winning in a diagonal down left direction
                 else if (board[i][j] == ConnectFourGameState.PLAYER1TOKEN && board[i - 1][j - 1] == ConnectFourGameState.PLAYER1TOKEN &&
                         board[i - 2][j - 2] == ConnectFourGameState.PLAYER1TOKEN && board[i - 3][j - 3] == CFgameState.EMPTY){
                     if (board[i - 2][j - 3] != CFgameState.EMPTY) { //checks if we are over a spot filled so token won't fall
@@ -394,6 +398,7 @@ public class ConnectFourHardAI {
             }
 
         }
+        //blocking case
         for(int i = 2; i<5; i++){
             for(int j = 2; j<6; j++){
                 if(board[i-2][j-2] == ConnectFourGameState.PLAYER1TOKEN

@@ -50,6 +50,7 @@ public class Token {
 
     }
 
+    //getter and setter methods
     public int getxPos() {
         return xPos;
     }

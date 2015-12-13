@@ -19,6 +19,9 @@ public class ConnectFourEasyAI extends ConnectFourGameState{
         playerEasyAIScore = 0;
     }
 
+    /*
+    constructor
+     */
     public  ConnectFourEasyAI(ConnectFourEasyAI easyAI){
 
     this.playerEasyAIScore = easyAI.getPlayerEasyAIScore();
