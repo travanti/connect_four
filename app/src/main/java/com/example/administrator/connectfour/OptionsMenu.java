@@ -117,17 +117,17 @@ public class OptionsMenu extends ActionBarActivity {
             public void onClick(View v) {
                 //start a new activity
                 startActivity(i);
-                finish(); //finish this activity so that
+                setResult(RESULT_OK, null);
+                finish(); //finish this activity so that it is not present if back is pressed
             }
         });
         //cancel and kill the activity
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                finish(); //finish this activity so that it is not on stack
             }
         });
-
     }
 
 

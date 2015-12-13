@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     AnimationCanvas newCanvas;
     MainActivity myAct = this;
     Bundle extras;
+    public static final int REQUEST_EXIT = 99;
     ConnectFourAnimator[] connectFourAnim = new ConnectFourAnimator[1];
 
     @Override
@@ -59,8 +60,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent options = new Intent(getApplicationContext(), OptionsMenu.class);
-                startActivity(options);
-                finish();
+                startActivityForResult(options, REQUEST_EXIT);
             }
         });
         //add animation canvas to activity
@@ -181,5 +181,14 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == REQUEST_EXIT){
+            if(resultCode == RESULT_OK){
+                this.finish();
+            }
+        }
     }
 }

@@ -37,7 +37,7 @@ public class ConnectFourAnimator implements Animator {
     ArrayList<Token> tokens = new ArrayList<>(42); //tokens that will be drawn
 
     //the easy AI player
-    ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
+    public static ConnectFourEasyAI CFEasyAI = new ConnectFourEasyAI();
 
     //indicate token and pool colors
     private int player1Color = Color.RED;
@@ -201,6 +201,7 @@ public class ConnectFourAnimator implements Animator {
                     marker.setyPos(event.getY());
                 }
             }
+
         } else if (event.getAction() == MotionEvent.ACTION_UP) { //when user releases finger
             int col = getColumn(x);
             //check if column is valid
