@@ -202,6 +202,7 @@ public class ConnectFourAnimator implements Animator {
                     marker.setyPos(event.getY());
                 }
             }
+
         } else if (event.getAction() == MotionEvent.ACTION_UP) { //when user releases finger
             int col = getColumn(x);
             //check if column is valid

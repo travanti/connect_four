@@ -3,6 +3,7 @@ package com.example.administrator.connectfour.connectfour;
 import android.util.Log;
 
 import com.example.administrator.connectfour.GameFramework.infoMsg.GameState;
+import com.example.administrator.connectfour.animation.ConnectFourAnimator;
 
 /**
  * handles the current state of the game, including initialization,
@@ -85,6 +86,7 @@ public class ConnectFourGameState extends GameState {
         //save the current player scores
         newGame.setPlayer1Score(this.player1Score);
         newGame.setPlayer2Score(this.player2Score);
+        newGame.setPlayerEasyAIScore(this.playerEasyAIScore); //copy over easy AIs score into the new game made
         return newGame;
     }
 
