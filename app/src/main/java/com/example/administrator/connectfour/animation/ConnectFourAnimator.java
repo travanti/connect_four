@@ -234,7 +234,7 @@ public class ConnectFourAnimator implements Animator {
                 } else {
                     pPaint.setColor(player2Color);
                 }
-
+                //depending on the player call onMove on the column for that player to make a move
                 if (gameState.getCurrentPlayerID() == gameState.PLAYER1_ID || gameState.getCurrentPlayerID() == gameState.PLAYER2_ID) {
                     newToken = new Token(pPaint, gameState.onPlayerMove(col - 1), col);
                 } else if (gameState.getCurrentPlayerID() == gameState.PLAYEREASYAI_ID) {

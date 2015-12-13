@@ -340,7 +340,7 @@ public class ConnectFourHardAI {
         /*
             oxoo up
          */
-        for(int i = 1; i<5; i++){
+        for(int i = 1; i<4; i++){
             for(int j = 1; j<5; j++){
                 if(board[i-1][j-1] == ConnectFourGameState.PLAYERHARDAITOKEN
                         && board[i+1][j+1] == ConnectFourGameState.PLAYERHARDAITOKEN
@@ -357,7 +357,7 @@ public class ConnectFourHardAI {
             }
 
         }
-        for(int i = 1; i<5; i++){
+        for(int i = 1; i<4; i++){
             for(int j = 1; j<5; j++){
                 if(board[i-1][j-1] == ConnectFourGameState.PLAYER1TOKEN
                         && board[i+1][j+1] == ConnectFourGameState.PLAYER1TOKEN

@@ -32,7 +32,7 @@ public class ConnectFourGameState extends GameState {
     int player1Score; //total wins for player 1
     int player2Score; //total wins for player 2
     int playerEasyAIScore; //total wins for easy AI
-    int getPlayerhardAIScore; //total wins for hard AI
+    int playerHardAIScore; //total wins for hard AI
     int depth = 0;//depth of search to be implemented in the hard AI move
 
 
@@ -87,6 +87,7 @@ public class ConnectFourGameState extends GameState {
         newGame.setPlayer1Score(this.player1Score);
         newGame.setPlayer2Score(this.player2Score);
         newGame.setPlayerEasyAIScore(this.playerEasyAIScore); //copy over easy AIs score into the new game made
+        newGame.setPlayerHardAIScore(this.playerHardAIScore);
         return newGame;
     }
 
@@ -318,7 +319,7 @@ public class ConnectFourGameState extends GameState {
                 } else if(currentPlayerID == PLAYEREASYAI_ID){
                     playerEasyAIScore++;
                 } else{
-                    getPlayerhardAIScore++;
+                    playerHardAIScore++;
                 }
                 return true;
             }else{
@@ -350,7 +351,10 @@ public class ConnectFourGameState extends GameState {
         this.currentPlayerID = currentPlayerID;
     }
 
-
+    /*
+    Method to determine who the next player will be
+    depending on the chosen settings
+    */
     public void nextPlayer() {
 
         if (easyAIgame == false && hardAIgame == false) {
@@ -377,6 +381,9 @@ public class ConnectFourGameState extends GameState {
      }
     }
 
+    /*
+    getter and setter methods
+     */
     public void setGameBoard(int[][] gameBoard) {
         this.gameBoard = gameBoard;
     }
@@ -393,7 +400,7 @@ public class ConnectFourGameState extends GameState {
         return playerEasyAIScore;
     }
 
-    public int getGetPlayerhardAIScore() {return getPlayerhardAIScore;}
+    public int getGetPlayerhardAIScore() {return playerHardAIScore;}
 
     public void setPlayerEasyAIScore(int playerEasyAIScore) {this.playerEasyAIScore = playerEasyAIScore;}
     
@@ -416,5 +423,9 @@ public class ConnectFourGameState extends GameState {
     public int getDepth() {return depth;}
     public void setEasyAIgame(boolean easyAIgame) {
         this.easyAIgame = easyAIgame;
+    }
+
+    public void setPlayerHardAIScore(int playerHardAIScore) {
+        this.playerHardAIScore = playerHardAIScore;
     }
 }
