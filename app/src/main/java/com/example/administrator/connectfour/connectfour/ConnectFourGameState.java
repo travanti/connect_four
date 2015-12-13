@@ -123,6 +123,7 @@ public class ConnectFourGameState extends GameState {
                     return i + 1;
                 }
             }
+            //easy AI player makes a move
         } else if (currentPlayerID == PLAYEREASYAI_ID) {
             for (int i = 0; i < 6; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
@@ -133,6 +134,7 @@ public class ConnectFourGameState extends GameState {
             }
 
         }
+        //hard AI player makes a move
         else if(currentPlayerID == PLAYERHARDAI_ID) {
             for (int i = 0; i < 6; i++) {
                 if (this.gameBoard[i][col] == EMPTY) {
@@ -305,6 +307,7 @@ public class ConnectFourGameState extends GameState {
                     //and scores have already been incremented
                     return true;
                 }
+                //if the game has been won the update the score of the winning player
                 gameIsWon = true;
                 if (currentPlayerID == PLAYER1_ID) {
                     player1Score++;
@@ -344,6 +347,7 @@ public class ConnectFourGameState extends GameState {
     public void setCurrentPlayerID(int currentPlayerID) {
         this.currentPlayerID = currentPlayerID;
     }
+
 
     public void nextPlayer() {
 
